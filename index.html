@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MONO STORE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+            },
+            boxShadow: {
+              soft: '0 12px 30px rgba(0,0,0,0.08)',
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-white text-zinc-900 antialiased">
+    <header class="sticky top-0 z-30 border-b border-zinc-200 bg-white/95 backdrop-blur">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
+        <a href="#" class="text-xs uppercase tracking-[0.25em]">Menu</a>
+        <h1 class="text-sm font-medium uppercase tracking-[0.35em]">MONO</h1>
+        <button id="cartToggle" class="relative text-xs uppercase tracking-[0.25em] hover:text-zinc-500">
+          Cart <span id="cartCount" class="ml-1">(0)</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="relative">
+        <img
+          src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1800&q=80"
+          alt="Minimal fashion campaign"
+          class="h-[64vh] w-full object-cover md:h-[74vh]"
+        />
+        <div class="absolute inset-0 bg-black/35"></div>
+        <div class="absolute inset-0 mx-auto flex max-w-7xl items-end p-6 sm:p-10">
+          <div class="max-w-xl text-white">
+            <p class="mb-3 text-xs uppercase tracking-[0.28em]">New Collection · Spring 2026</p>
+            <h2 class="mb-6 text-3xl font-light uppercase tracking-[0.16em] sm:text-5xl">Modern Essentials</h2>
+            <a
+              href="#shop"
+              class="inline-block border border-white px-7 py-3 text-xs uppercase tracking-[0.2em] transition hover:bg-white hover:text-zinc-900"
+              >Shop now</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section id="shop" class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-10 lg:py-16">
+        <div class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-[0.2em] text-zinc-500">Ecommerce Demo</p>
+            <h3 class="text-2xl uppercase tracking-[0.2em]">Shop All</h3>
+          </div>
+          <div class="grid gap-3 sm:grid-cols-3">
+            <label class="text-xs uppercase tracking-[0.16em]">
+              Search
+              <input
+                id="searchInput"
+                type="text"
+                placeholder="Blazer, dress..."
+                class="mt-2 w-full border border-zinc-300 px-3 py-2 text-sm normal-case tracking-normal outline-none focus:border-zinc-900"
+              />
+            </label>
+            <label class="text-xs uppercase tracking-[0.16em]">
+              Category
+              <select id="categoryFilter" class="mt-2 w-full border border-zinc-300 px-3 py-2 text-sm normal-case tracking-normal focus:border-zinc-900">
+                <option value="all">All</option>
+                <option value="Outerwear">Outerwear</option>
+                <option value="Bottoms">Bottoms</option>
+                <option value="Tops">Tops</option>
+                <option value="Dresses">Dresses</option>
+              </select>
+            </label>
+            <label class="text-xs uppercase tracking-[0.16em]">
+              Sort
+              <select id="sortFilter" class="mt-2 w-full border border-zinc-300 px-3 py-2 text-sm normal-case tracking-normal focus:border-zinc-900">
+                <option value="featured">Featured</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div id="productGrid" class="grid gap-8 sm:grid-cols-2 xl:grid-cols-4"></div>
+      </section>
+
+      <section class="border-y border-zinc-200 bg-zinc-50">
+        <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-3 lg:px-10">
+          <article>
+            <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Free shipping</p>
+            <p class="mt-2 text-sm text-zinc-700">Orders over $100 ship free within 3-5 business days.</p>
+          </article>
+          <article>
+            <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Easy returns</p>
+            <p class="mt-2 text-sm text-zinc-700">30-day return window on all unworn items.</p>
+          </article>
+          <article>
+            <p class="text-xs uppercase tracking-[0.18em] text-zinc-500">Secure checkout</p>
+            <p class="mt-2 text-sm text-zinc-700">Card + PayPal checkout demo experience.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <aside id="cartDrawer" class="fixed right-0 top-0 z-40 flex h-full w-full max-w-md translate-x-full flex-col bg-white shadow-soft transition-transform duration-300">
+      <div class="flex items-center justify-between border-b border-zinc-200 px-5 py-4">
+        <h4 class="text-sm uppercase tracking-[0.2em]">Your cart</h4>
+        <button id="closeCart" class="text-xs uppercase tracking-[0.2em]">Close</button>
+      </div>
+      <div id="cartItems" class="flex-1 space-y-4 overflow-y-auto px-5 py-5"></div>
+      <div class="border-t border-zinc-200 p-5">
+        <div class="mb-4 flex items-center justify-between text-sm">
+          <span class="uppercase tracking-[0.16em] text-zinc-600">Subtotal</span>
+          <span id="subtotal">$0.00</span>
+        </div>
+        <button class="w-full bg-zinc-900 px-4 py-3 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-zinc-700">Checkout</button>
+      </div>
+    </aside>
+    <div id="backdrop" class="pointer-events-none fixed inset-0 z-30 bg-black/30 opacity-0 transition-opacity duration-300"></div>
+
+    <footer class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 text-xs uppercase tracking-[0.16em] text-zinc-500 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+      <p>© 2026 MONO STORE</p>
+      <nav class="flex gap-5">
+        <a href="#" class="hover:text-zinc-900">Contact</a>
+        <a href="#" class="hover:text-zinc-900">Shipping</a>
+        <a href="#" class="hover:text-zinc-900">Returns</a>
+      </nav>
+    </footer>
+
+    <script>
+      const products = [
+        {
+          id: 1,
+          name: 'Structured Blazer',
+          category: 'Outerwear',
+          color: 'Ecru',
+          price: 89.9,
+          image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=80',
+        },
+        {
+          id: 2,
+          name: 'Wide Leg Trousers',
+          category: 'Bottoms',
+          color: 'Black',
+          price: 59.9,
+          image: 'https://images.unsplash.com/photo-1467043237213-65f2da53396f?auto=format&fit=crop&w=900&q=80',
+        },
+        {
+          id: 3,
+          name: 'Relaxed Cotton Shirt',
+          category: 'Tops',
+          color: 'White',
+          price: 39.9,
+          image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80',
+        },
+        {
+          id: 4,
+          name: 'Long Satin Dress',
+          category: 'Dresses',
+          color: 'Stone',
+          price: 79.9,
+          image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
+        },
+        {
+          id: 5,
+          name: 'Minimal Wool Coat',
+          category: 'Outerwear',
+          color: 'Charcoal',
+          price: 129.9,
+          image: 'https://images.unsplash.com/photo-1548624313-0396c75e4b1a?auto=format&fit=crop&w=900&q=80',
+        },
+        {
+          id: 6,
+          name: 'Ribbed Knit Top',
+          category: 'Tops',
+          color: 'Sand',
+          price: 35.9,
+          image: 'https://images.unsplash.com/photo-1551163943-3f7e29e93d81?auto=format&fit=crop&w=900&q=80',
+        },
+        {
+          id: 7,
+          name: 'Pleated Midi Skirt',
+          category: 'Bottoms',
+          color: 'Navy',
+          price: 64.9,
+          image: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80',
+        },
+        {
+          id: 8,
+          name: 'Poplin Shirt Dress',
+          category: 'Dresses',
+          color: 'Blue',
+          price: 74.9,
+          image: 'https://images.unsplash.com/photo-1464863979621-258859e62245?auto=format&fit=crop&w=900&q=80',
+        },
+      ];
+
+      const productGrid = document.getElementById('productGrid');
+      const searchInput = document.getElementById('searchInput');
+      const categoryFilter = document.getElementById('categoryFilter');
+      const sortFilter = document.getElementById('sortFilter');
+
+      const cartItemsEl = document.getElementById('cartItems');
+      const cartCountEl = document.getElementById('cartCount');
+      const subtotalEl = document.getElementById('subtotal');
+      const cartDrawer = document.getElementById('cartDrawer');
+      const backdrop = document.getElementById('backdrop');
+      const cartToggle = document.getElementById('cartToggle');
+      const closeCart = document.getElementById('closeCart');
+
+      let cart = [];
+
+      const formatCurrency = (value) => `$${value.toFixed(2)}`;
+
+      function renderProducts() {
+        const query = searchInput.value.trim().toLowerCase();
+        const category = categoryFilter.value;
+        const sort = sortFilter.value;
+
+        let filtered = products.filter((product) => {
+          const matchText = `${product.name} ${product.color}`.toLowerCase().includes(query);
+          const matchCategory = category === 'all' || product.category === category;
+          return matchText && matchCategory;
+        });
+
+        if (sort === 'price-low') {
+          filtered.sort((a, b) => a.price - b.price);
+        } else if (sort === 'price-high') {
+          filtered.sort((a, b) => b.price - a.price);
+        }
+
+        if (filtered.length === 0) {
+          productGrid.innerHTML =
+            '<p class="col-span-full border border-zinc-200 p-6 text-center text-sm text-zinc-600">No products match your filters.</p>';
+          return;
+        }
+
+        productGrid.innerHTML = filtered
+          .map(
+            (product) => `
+              <article class="group">
+                <div class="overflow-hidden bg-zinc-100">
+                  <img src="${product.image}" alt="${product.name}" class="h-96 w-full object-cover transition duration-500 group-hover:scale-105" />
+                </div>
+                <div class="mt-4 space-y-2">
+                  <div class="flex items-center justify-between">
+                    <h4 class="text-sm uppercase tracking-[0.16em]">${product.name}</h4>
+                    <p class="text-sm">${formatCurrency(product.price)}</p>
+                  </div>
+                  <p class="text-xs uppercase tracking-[0.14em] text-zinc-500">${product.category} · ${product.color}</p>
+                  <button
+                    class="add-to-cart w-full border border-zinc-900 px-3 py-2 text-xs uppercase tracking-[0.16em] transition hover:bg-zinc-900 hover:text-white"
+                    data-id="${product.id}"
+                  >
+                    Add to cart
+                  </button>
+                </div>
+              </article>
+            `,
+          )
+          .join('');
+
+        document.querySelectorAll('.add-to-cart').forEach((button) => {
+          button.addEventListener('click', () => addToCart(Number(button.dataset.id)));
+        });
+      }
+
+      function addToCart(productId) {
+        const existing = cart.find((item) => item.id === productId);
+        if (existing) {
+          existing.quantity += 1;
+        } else {
+          const product = products.find((item) => item.id === productId);
+          cart.push({ ...product, quantity: 1 });
+        }
+        renderCart();
+        openCart();
+      }
+
+      function updateQuantity(productId, change) {
+        cart = cart
+          .map((item) => (item.id === productId ? { ...item, quantity: item.quantity + change } : item))
+          .filter((item) => item.quantity > 0);
+        renderCart();
+      }
+
+      function renderCart() {
+        const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        cartCountEl.textContent = `(${totalQty})`;
+        subtotalEl.textContent = formatCurrency(subtotal);
+
+        if (cart.length === 0) {
+          cartItemsEl.innerHTML = '<p class="text-sm text-zinc-500">Your cart is empty.</p>';
+          return;
+        }
+
+        cartItemsEl.innerHTML = cart
+          .map(
+            (item) => `
+              <div class="flex gap-3 border-b border-zinc-200 pb-4">
+                <img src="${item.image}" alt="${item.name}" class="h-24 w-20 object-cover" />
+                <div class="flex-1">
+                  <p class="text-xs uppercase tracking-[0.14em]">${item.name}</p>
+                  <p class="mt-1 text-sm text-zinc-600">${formatCurrency(item.price)}</p>
+                  <div class="mt-3 inline-flex items-center border border-zinc-300">
+                    <button class="qty-btn px-2 py-1" data-id="${item.id}" data-change="-1">−</button>
+                    <span class="px-3 text-sm">${item.quantity}</span>
+                    <button class="qty-btn px-2 py-1" data-id="${item.id}" data-change="1">+</button>
+                  </div>
+                </div>
+              </div>
+            `,
+          )
+          .join('');
+
+        document.querySelectorAll('.qty-btn').forEach((button) => {
+          button.addEventListener('click', () => {
+            updateQuantity(Number(button.dataset.id), Number(button.dataset.change));
+          });
+        });
+      }
+
+      function openCart() {
+        cartDrawer.classList.remove('translate-x-full');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+      }
+
+      function closeCartDrawer() {
+        cartDrawer.classList.add('translate-x-full');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+      }
+
+      [searchInput, categoryFilter, sortFilter].forEach((input) => {
+        input.addEventListener('input', renderProducts);
+        input.addEventListener('change', renderProducts);
+      });
+
+      cartToggle.addEventListener('click', openCart);
+      closeCart.addEventListener('click', closeCartDrawer);
+      backdrop.addEventListener('click', closeCartDrawer);
+
+      renderProducts();
+      renderCart();
+    </script>
+  </body>
+</html>
