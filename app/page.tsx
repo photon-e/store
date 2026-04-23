@@ -10,8 +10,8 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/35" />
         <div className="absolute inset-0 container-page flex items-end pb-16">
           <div className="max-w-xl text-white">
-            <p className="mb-3 text-xs uppercase tracking-[0.24em]">Lagos Edit 2026</p>
-            <h1 className="mb-6 text-4xl font-light uppercase tracking-[0.16em] md:text-6xl">Premium Daily Wear for Naija</h1>
+            <p className="mb-3 text-xs uppercase tracking-[0.24em]">New Season 2026</p>
+            <h1 className="mb-6 text-4xl font-light uppercase tracking-[0.16em] md:text-6xl">Premium Clothing for Everyday Style</h1>
             <Link href="/shop" className="inline-block border border-white px-7 py-3 text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black">Explore Collection</Link>
           </div>
         </div>
@@ -49,11 +49,10 @@ export default function HomePage() {
       <section className="container-page py-14">
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="rounded-2xl border border-zinc-200 p-8">
-            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-zinc-500">Why MONO</p>
-            <h3 className="mb-4 text-2xl uppercase tracking-[0.14em] text-zinc-900">Built for your daily uniform</h3>
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-zinc-500">Why GENERAL</p>
+            <h3 className="mb-4 text-2xl uppercase tracking-[0.14em] text-zinc-900">Built as a modern clothing brand</h3>
             <p className="mb-6 text-sm leading-7 text-zinc-600">
-              We focus on timeless silhouettes, durable fabrics, and comfort-first construction so every
-              piece works harder in your wardrobe.
+              We craft trend-forward and timeless pieces with premium fabrics, standout cuts, and comfort-first construction to elevate your everyday wardrobe.
             </p>
             <Link href="/shop" className="inline-block border border-zinc-900 px-6 py-2 text-xs uppercase tracking-[0.2em] text-zinc-900 transition hover:bg-zinc-900 hover:text-white">
               Shop now

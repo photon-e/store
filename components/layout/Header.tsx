@@ -18,8 +18,9 @@ export function Header() {
             Dashboard
           </Link>
         </nav>
-        <Link href="/" className="text-sm font-semibold uppercase tracking-[0.35em]">
-          MONO
+        <Link href="/" className="flex flex-col items-center text-sm font-semibold uppercase tracking-[0.35em]">
+          <span>GENERAL</span>
+          <span className="mt-1 text-[10px] tracking-[0.2em] text-amber-500">★★★★★</span>
         </Link>
         <div className="flex items-center gap-4 text-[11px] uppercase tracking-[0.18em] text-zinc-600">
           <Link href="/login" className="transition hover:text-zinc-900">

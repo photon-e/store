@@ -3,10 +3,9 @@ export function Footer() {
     <footer className="border-t border-zinc-200 bg-zinc-50/80 py-12 text-zinc-600">
       <div className="container-page grid gap-10 md:grid-cols-4">
         <div className="md:col-span-2">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-zinc-900">MONO</p>
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-zinc-900">GENERAL</p>
           <p className="max-w-md text-sm leading-6 text-zinc-500">
-            Refined essentials built for daily comfort. Designed for modern wardrobes with quality,
-            fit, and understated style in mind.
+            A modern clothing brand focused on elevated everyday style. Designed for confident wardrobes with quality fabrics, great fit, and signature looks.
           </p>
           <div className="mt-5 flex flex-wrap gap-3 text-xs">
             <a className="rounded-full border border-zinc-300 px-3 py-1.5 transition hover:border-zinc-900 hover:text-zinc-900" href="https://instagram.com" target="_blank" rel="noreferrer">
@@ -44,7 +43,7 @@ export function Footer() {
 
       <div className="container-page mt-10 border-t border-zinc-200 pt-6 text-xs uppercase tracking-[0.16em] text-zinc-500">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 MONO Commerce. All rights reserved.</p>
+          <p>© 2026 GENERAL Clothing. All rights reserved.</p>
           <p>Secure checkout · Fast delivery · Easy returns</p>
         </div>
       </div>

@@ -10,7 +10,7 @@ export function ShopClient({ products }: { products: Product[] }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
   const [size, setSize] = useState('all');
-  const [maxPrice, setMaxPrice] = useState(500);
+  const [maxPrice, setMaxPrice] = useState(100000);
   const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
 
@@ -57,7 +57,7 @@ export function ShopClient({ products }: { products: Product[] }) {
 
       <div>
         <label className="mb-2 block text-xs uppercase tracking-[0.15em] text-zinc-500">Max price: ₦{maxPrice}</label>
-        <input type="range" min={25} max={500} value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="w-full" />
+        <input type="range" min={10000} max={100000} value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="w-full" />
       </div>
 
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
