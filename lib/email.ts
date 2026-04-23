@@ -16,7 +16,7 @@ export async function sendOrderConfirmationEmail(email: string, orderId: string)
   await transporter.sendMail({
     from: process.env.SMTP_FROM,
     to: email,
-    subject: `Your MONO order ${orderId}`,
+    subject: `Your GENERAL order ${orderId}`,
     text: `Thanks for your purchase. Your order ${orderId} is confirmed.`,
   });
 }
