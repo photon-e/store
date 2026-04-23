@@ -9,16 +9,25 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/95 backdrop-blur">
-      <div className="container-page flex items-center justify-between py-4">
-        <Link href="/shop" className="text-xs uppercase tracking-[0.2em]">
-          Shop
-        </Link>
-        <Link href="/" className="text-sm font-medium uppercase tracking-[0.35em]">
+      <div className="container-page flex flex-wrap items-center justify-between gap-4 py-4">
+        <nav className="flex items-center gap-6 text-[11px] uppercase tracking-[0.22em] text-zinc-600">
+          <Link href="/shop" className="transition hover:text-zinc-900">
+            Shop
+          </Link>
+          <Link href="/dashboard" className="transition hover:text-zinc-900">
+            Dashboard
+          </Link>
+        </nav>
+        <Link href="/" className="text-sm font-semibold uppercase tracking-[0.35em]">
           MONO
         </Link>
-        <div className="flex items-center gap-4 text-xs uppercase tracking-[0.18em]">
-          <Link href="/login">Account</Link>
-          <Link href="/cart">Cart ({count})</Link>
+        <div className="flex items-center gap-4 text-[11px] uppercase tracking-[0.18em] text-zinc-600">
+          <Link href="/login" className="transition hover:text-zinc-900">
+            Account
+          </Link>
+          <Link href="/cart" className="rounded-full border border-zinc-300 px-3 py-1.5 text-zinc-900 transition hover:border-zinc-900">
+            Cart ({count})
+          </Link>
         </div>
       </div>
     </header>

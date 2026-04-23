@@ -12,7 +12,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
   return (
     <>
       <h1 className="text-3xl uppercase tracking-[0.14em]">{product.name}</h1>
-      <p className="mt-3 text-2xl">${product.price}</p>
+      <p className="mt-3 text-2xl">₦{product.price}</p>
       <p className="mt-5 text-zinc-600">{product.description}</p>
 
       <div className="mt-6 space-y-4">

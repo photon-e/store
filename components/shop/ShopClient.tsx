@@ -56,7 +56,7 @@ export function ShopClient({ products }: { products: Product[] }) {
       </div>
 
       <div>
-        <label className="mb-2 block text-xs uppercase tracking-[0.15em] text-zinc-500">Max price: ${maxPrice}</label>
+        <label className="mb-2 block text-xs uppercase tracking-[0.15em] text-zinc-500">Max price: ₦{maxPrice}</label>
         <input type="range" min={25} max={500} value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="w-full" />
       </div>
 
