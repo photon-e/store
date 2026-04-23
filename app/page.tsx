@@ -10,7 +10,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/35" />
         <div className="absolute inset-0 container-page flex items-end pb-16">
           <div className="max-w-xl text-white">
-            <p className="mb-3 text-xs uppercase tracking-[0.24em]">New Season 2026</p>
+            <p className="mb-3 text-xs uppercase tracking-[0.24em]">Lagos Edit 2026</p>
             <h1 className="mb-6 text-4xl font-light uppercase tracking-[0.16em] md:text-6xl">Premium Daily Wear for Naija</h1>
             <Link href="/shop" className="inline-block border border-white px-7 py-3 text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black">Explore Collection</Link>
           </div>
@@ -32,16 +32,16 @@ export default function HomePage() {
       <section className="border-y border-zinc-200 bg-zinc-50">
         <div className="container-page grid gap-6 py-12 text-center sm:grid-cols-3 sm:text-left">
           <div>
-            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-zinc-500">Free Delivery</p>
-            <p className="text-sm text-zinc-700">On orders above ₦100,000 in Lagos & Abuja.</p>
+            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-zinc-500">Free Shipping</p>
+            <p className="text-sm text-zinc-700">On all US orders above $100.</p>
           </div>
           <div>
             <p className="mb-2 text-xs uppercase tracking-[0.2em] text-zinc-500">Easy Returns</p>
-            <p className="text-sm text-zinc-700">7-day return window with fast local support.</p>
+            <p className="text-sm text-zinc-700">30-day return window with quick refunds.</p>
           </div>
           <div>
             <p className="mb-2 text-xs uppercase tracking-[0.2em] text-zinc-500">Secure Payment</p>
-            <p className="text-sm text-zinc-700">Pay securely with card, bank transfer, or USSD.</p>
+            <p className="text-sm text-zinc-700">Encrypted checkout with trusted providers.</p>
           </div>
         </div>
       </section>
@@ -50,20 +50,20 @@ export default function HomePage() {
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="rounded-2xl border border-zinc-200 p-8">
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-zinc-500">Why MONO</p>
-            <h3 className="mb-4 text-2xl uppercase tracking-[0.14em] text-zinc-900">Built for your everyday drip</h3>
+            <h3 className="mb-4 text-2xl uppercase tracking-[0.14em] text-zinc-900">Built for your daily uniform</h3>
             <p className="mb-6 text-sm leading-7 text-zinc-600">
-              From workdays in Lagos traffic to weekend owambes, our pieces are made with breathable
-              fabrics, reliable quality, and clean fits that stay sharp all day.
+              We focus on timeless silhouettes, durable fabrics, and comfort-first construction so every
+              piece works harder in your wardrobe.
             </p>
             <Link href="/shop" className="inline-block border border-zinc-900 px-6 py-2 text-xs uppercase tracking-[0.2em] text-zinc-900 transition hover:bg-zinc-900 hover:text-white">
               Shop now
             </Link>
           </div>
           <div className="rounded-2xl border border-zinc-200 bg-zinc-900 p-8 text-white">
-            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-zinc-300">Community</p>
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-zinc-300">Newsletter</p>
             <h3 className="mb-4 text-2xl uppercase tracking-[0.14em]">Get style updates & early access</h3>
             <p className="mb-6 text-sm leading-7 text-zinc-300">
-              Join our MONO Naija list for new drops, festive edits, and members-only offers.
+              Be first to know about new drops, seasonal edits, and members-only offers.
             </p>
             <form className="flex flex-col gap-3 sm:flex-row">
               <input
