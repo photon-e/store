@@ -70,12 +70,12 @@ export default function CheckoutPage() {
           <h2 className="mb-4 text-sm uppercase tracking-[0.16em]">Order summary</h2>
           <div className="space-y-2 text-sm">
             {items.map((item) => (
-              <p key={`${item.productId}-${item.size}-${item.color}`} className="flex justify-between"><span>{item.name} × {item.quantity}</span><span>${(item.price * item.quantity).toFixed(2)}</span></p>
+              <p key={`${item.productId}-${item.size}-${item.color}`} className="flex justify-between"><span>{item.name} × {item.quantity}</span><span>₦{(item.price * item.quantity).toFixed(2)}</span></p>
             ))}
             <hr className="my-3" />
-            <p className="flex justify-between"><span>Subtotal</span><span>${subtotal().toFixed(2)}</span></p>
-            <p className="flex justify-between"><span>Tax</span><span>${tax().toFixed(2)}</span></p>
-            <p className="flex justify-between font-semibold"><span>Total</span><span>${total().toFixed(2)}</span></p>
+            <p className="flex justify-between"><span>Subtotal</span><span>₦{subtotal().toFixed(2)}</span></p>
+            <p className="flex justify-between"><span>Tax</span><span>₦{tax().toFixed(2)}</span></p>
+            <p className="flex justify-between font-semibold"><span>Total</span><span>₦{total().toFixed(2)}</span></p>
           </div>
         </aside>
       </div>

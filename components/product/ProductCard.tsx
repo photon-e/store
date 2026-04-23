@@ -25,7 +25,7 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="mt-3 space-y-2">
         <div className="flex justify-between gap-2">
           <h3 className="text-sm uppercase tracking-[0.14em]">{product.name}</h3>
-          <span className="text-sm">${product.price}</span>
+          <span className="text-sm">₦{product.price}</span>
         </div>
         <p className="text-xs uppercase tracking-[0.12em] text-zinc-500">{product.category}</p>
         <div className="grid grid-cols-2 gap-2">
