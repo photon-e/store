@@ -6,17 +6,28 @@ if (!MONGODB_URI) {
   console.warn('MONGODB_URI is not set. API routes using DB will fail until configured.');
 }
 
-let cached = (global as typeof globalThis & { mongoose?: { conn: typeof mongoose | null; promise: Promise<typeof mongoose> | null } }).mongoose;
+type MongooseCache = {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
+};
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+const globalForMongoose = globalThis as typeof globalThis & {
+  mongoose?: MongooseCache;
+};
+
+const cached: MongooseCache = globalForMongoose.mongoose ?? { conn: null, promise: null };
+
+if (!globalForMongoose.mongoose) {
+  globalForMongoose.mongoose = cached;
 }
 
 export async function connectDB() {
-  if (cached?.conn) return cached.conn;
-  if (!cached?.promise) {
-    cached!.promise = mongoose.connect(MONGODB_URI, { bufferCommands: false });
+  if (cached.conn) return cached.conn;
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI, { bufferCommands: false });
   }
-  cached!.conn = await cached!.promise;
-  return cached!.conn;
+
+  cached.conn = await cached.promise;
+  return cached.conn;
 }
