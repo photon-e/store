@@ -17,6 +17,5 @@ export async function POST(request: Request) {
   const token = signToken({ userId: String(user._id), role: user.role });
   const response = NextResponse.json({ message: 'Logged in', role: user.role });
   response.cookies.set('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-  response.cookies.set('role', user.role, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
   return response;
 }
