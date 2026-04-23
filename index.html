@@ -119,7 +119,7 @@
       <div class="border-t border-zinc-200 p-5">
         <div class="mb-4 flex items-center justify-between text-sm">
           <span class="uppercase tracking-[0.16em] text-zinc-600">Subtotal</span>
-          <span id="subtotal">$0.00</span>
+          <span id="subtotal">₦0.00</span>
         </div>
         <button class="w-full bg-zinc-900 px-4 py-3 text-xs uppercase tracking-[0.2em] text-white transition hover:bg-zinc-700">Checkout</button>
       </div>
@@ -142,7 +142,7 @@
           name: 'Structured Blazer',
           category: 'Outerwear',
           color: 'Ecru',
-          price: 89.9,
+          price: 28500,
           image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=80',
         },
         {
@@ -150,7 +150,7 @@
           name: 'Wide Leg Trousers',
           category: 'Bottoms',
           color: 'Black',
-          price: 59.9,
+          price: 22000,
           image: 'https://images.unsplash.com/photo-1467043237213-65f2da53396f?auto=format&fit=crop&w=900&q=80',
         },
         {
@@ -158,7 +158,7 @@
           name: 'Relaxed Cotton Shirt',
           category: 'Tops',
           color: 'White',
-          price: 39.9,
+          price: 15000,
           image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80',
         },
         {
@@ -166,7 +166,7 @@
           name: 'Long Satin Dress',
           category: 'Dresses',
           color: 'Stone',
-          price: 79.9,
+          price: 31000,
           image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80',
         },
         {
@@ -174,7 +174,7 @@
           name: 'Minimal Wool Coat',
           category: 'Outerwear',
           color: 'Charcoal',
-          price: 129.9,
+          price: 45000,
           image: 'https://images.unsplash.com/photo-1548624313-0396c75e4b1a?auto=format&fit=crop&w=900&q=80',
         },
         {
@@ -182,7 +182,7 @@
           name: 'Ribbed Knit Top',
           category: 'Tops',
           color: 'Sand',
-          price: 35.9,
+          price: 12000,
           image: 'https://images.unsplash.com/photo-1551163943-3f7e29e93d81?auto=format&fit=crop&w=900&q=80',
         },
         {
@@ -190,7 +190,7 @@
           name: 'Pleated Midi Skirt',
           category: 'Bottoms',
           color: 'Navy',
-          price: 64.9,
+          price: 18000,
           image: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80',
         },
         {
@@ -198,7 +198,7 @@
           name: 'Poplin Shirt Dress',
           category: 'Dresses',
           color: 'Blue',
-          price: 74.9,
+          price: 26000,
           image: 'https://images.unsplash.com/photo-1464863979621-258859e62245?auto=format&fit=crop&w=900&q=80',
         },
       ];
@@ -218,7 +218,7 @@
 
       let cart = [];
 
-      const formatCurrency = (value) => `$${value.toFixed(2)}`;
+      const formatCurrency = (value) => `₦${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
       function renderProducts() {
         const query = searchInput.value.trim().toLowerCase();
