@@ -13,3 +13,12 @@ body {
 .container-page {
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-10;
 }
+
+a,
+button {
+  @apply transition-colors duration-200;
+}
+
+::selection {
+  @apply bg-zinc-900 text-white;
+}
