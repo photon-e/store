@@ -13,7 +13,7 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className="group">
-      <Link href={`/product/${product.slug}`} className="block overflow-hidden bg-zinc-100">
+      <Link href={`/product/${product.slug}`} className="relative block overflow-hidden bg-zinc-100">
         <Image
           src={product.images[0]}
           alt={product.name}
@@ -21,6 +21,10 @@ export function ProductCard({ product }: { product: Product }) {
           height={900}
           className="h-80 w-full object-cover transition duration-500 group-hover:scale-105"
         />
+        <div className="absolute bottom-4 left-4 bg-black/70 px-3 py-2 text-white">
+          <p className="text-base font-black uppercase tracking-[0.14em]">GENERAL</p>
+          <p className="text-xs tracking-[0.25em]">★★★★★</p>
+        </div>
       </Link>
       <div className="mt-3 space-y-2">
         <div className="flex justify-between gap-2">

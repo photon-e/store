@@ -15,7 +15,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="container-page py-10">
       <div className="grid gap-10 lg:grid-cols-2">
-        <Image src={product.images[0]} alt={product.name} width={900} height={1000} className="h-[32rem] w-full object-cover" />
+        <div className="relative">
+          <Image src={product.images[0]} alt={product.name} width={900} height={1000} className="h-[32rem] w-full object-cover" />
+          <div className="absolute bottom-5 left-5 bg-black/70 px-4 py-3 text-white">
+            <p className="text-2xl font-black uppercase tracking-[0.14em]">GENERAL</p>
+            <p className="text-sm tracking-[0.3em]">★★★★★</p>
+          </div>
+        </div>
         <div>
           <ProductDetailClient product={product} />
 
