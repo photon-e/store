@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { Product } from '@/types';
 import { ProductCard } from '@/components/product/ProductCard';
+import { formatPriceWithDollarEquivalent } from '@/lib/currency';
 
 const PAGE_SIZE = 6;
 
@@ -56,7 +57,7 @@ export function ShopClient({ products }: { products: Product[] }) {
       </div>
 
       <div>
-        <label className="mb-2 block text-xs uppercase tracking-[0.15em] text-zinc-500">Max price: ₦{maxPrice}</label>
+        <label className="mb-2 block text-xs uppercase tracking-[0.15em] text-zinc-500">Max price: {formatPriceWithDollarEquivalent(maxPrice)}</label>
         <input type="range" min={10000} max={100000} value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="w-full" />
       </div>
 
