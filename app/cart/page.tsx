@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCartStore } from '@/store/cartStore';
+import { formatPriceWithDollarEquivalent } from '@/lib/currency';
 
 export default function CartPage() {
   const { items, subtotal, tax, total, updateQuantity, removeItem } = useCartStore();
@@ -24,7 +25,7 @@ export default function CartPage() {
                 <div className="flex-1">
                   <h3 className="text-sm uppercase tracking-[0.12em]">{item.name}</h3>
                   <p className="mt-1 text-sm text-zinc-600">{item.color} / {item.size}</p>
-                  <p className="mt-2 text-sm">₦{item.price}</p>
+                  <p className="mt-2 text-sm">{formatPriceWithDollarEquivalent(item.price)}</p>
                   <div className="mt-3 flex items-center gap-2">
                     <button onClick={() => updateQuantity(item.productId, item.size, item.color, item.quantity - 1)} className="border px-2">-</button>
                     <span>{item.quantity}</span>
@@ -38,9 +39,9 @@ export default function CartPage() {
           <aside className="h-fit border p-5">
             <h2 className="mb-4 text-sm uppercase tracking-[0.16em]">Summary</h2>
             <div className="space-y-2 text-sm">
-              <p className="flex justify-between"><span>Subtotal</span><span>₦{subtotal().toFixed(2)}</span></p>
-              <p className="flex justify-between"><span>Tax</span><span>₦{tax().toFixed(2)}</span></p>
-              <p className="flex justify-between font-semibold"><span>Total</span><span>₦{total().toFixed(2)}</span></p>
+              <p className="flex justify-between"><span>Subtotal</span><span>{formatPriceWithDollarEquivalent(subtotal())}</span></p>
+              <p className="flex justify-between"><span>Tax</span><span>{formatPriceWithDollarEquivalent(tax())}</span></p>
+              <p className="flex justify-between font-semibold"><span>Total</span><span>{formatPriceWithDollarEquivalent(total())}</span></p>
             </div>
             <Link href="/checkout" className="mt-5 block w-full bg-zinc-900 px-4 py-3 text-center text-xs uppercase tracking-[0.18em] text-white">Checkout</Link>
           </aside>
