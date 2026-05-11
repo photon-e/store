@@ -13,7 +13,7 @@ export function ProductCard({ product }: { product: Product }) {
   const wished = useWishlistStore((s) => s.has(product._id));
 
   return (
-    <article className="group">
+    <article className="group surface-card overflow-hidden">
       <Link href={`/product/${product.slug}`} className="relative block overflow-hidden bg-zinc-100">
         <Image
           src={product.images[0]}
@@ -27,7 +27,7 @@ export function ProductCard({ product }: { product: Product }) {
           <p className="text-xs tracking-[0.25em]">★★★★★</p>
         </div>
       </Link>
-      <div className="mt-3 space-y-2">
+      <div className="space-y-2 p-4">
         <div className="flex justify-between gap-2">
           <h3 className="text-sm uppercase tracking-[0.14em]">{product.name}</h3>
           <span className="text-sm">{formatPriceWithDollarEquivalent(product.price)}</span>
@@ -46,13 +46,13 @@ export function ProductCard({ product }: { product: Product }) {
               quantity: 1,
             })
           }
-          className="w-full border border-zinc-900 px-3 py-2 text-xs uppercase tracking-[0.16em] transition hover:bg-zinc-900 hover:text-white"
+          className="w-full rounded-md border border-zinc-900 px-3 py-2 text-xs uppercase tracking-[0.16em] transition hover:bg-zinc-900 hover:text-white"
           >
             Add to cart
           </button>
           <button
             onClick={() => toggle(product._id)}
-            className={`w-full border px-3 py-2 text-xs uppercase tracking-[0.16em] transition ${wished ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 hover:border-zinc-900'}`}
+            className={`w-full rounded-md border px-3 py-2 text-xs uppercase tracking-[0.16em] transition ${wished ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 hover:border-zinc-900'}`}
           >
             {wished ? 'Wishlisted' : 'Wishlist'}
           </button>

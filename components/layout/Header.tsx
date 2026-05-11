@@ -9,8 +9,8 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/95 backdrop-blur">
-      <div className="container-page flex flex-wrap items-center justify-between gap-4 py-4">
-        <nav className="flex items-center gap-6 text-[11px] uppercase tracking-[0.22em] text-zinc-600">
+      <div className="container-page flex flex-wrap items-center justify-between gap-4 py-3">
+        <nav className="flex items-center gap-5 text-[11px] uppercase tracking-[0.22em] text-zinc-600">
           <Link href="/shop" className="transition hover:text-zinc-900">
             Shop
           </Link>
@@ -18,12 +18,12 @@ export function Header() {
             Dashboard
           </Link>
         </nav>
-        <Link href="/" className="flex flex-col items-center text-sm font-semibold uppercase tracking-[0.35em]">
+        <Link href="/" className="flex flex-col items-center rounded-full px-3 py-1 text-sm font-semibold uppercase tracking-[0.35em] hover:bg-zinc-100">
           <span>GENERAL</span>
           <span className="mt-1 text-[10px] tracking-[0.2em] text-amber-500">★★★★★</span>
         </Link>
         <div className="flex items-center gap-4 text-[11px] uppercase tracking-[0.18em] text-zinc-600">
-          <Link href="/login" className="transition hover:text-zinc-900">
+          <Link href="/login" className="rounded-full px-3 py-1.5 transition hover:bg-zinc-100 hover:text-zinc-900">
             Account
           </Link>
           <Link href="/cart" className="rounded-full border border-zinc-300 px-3 py-1.5 text-zinc-900 transition hover:border-zinc-900">

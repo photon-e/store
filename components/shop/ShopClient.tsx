@@ -32,40 +32,69 @@ export function ShopClient({ products }: { products: Product[] }) {
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
 
+  const clearFilters = () => {
+    setQuery('');
+    setCategory('all');
+    setSize('all');
+    setMaxPrice(100000);
+    setSort('newest');
+    setPage(1);
+  };
+
   return (
     <div className="space-y-8">
-      <div className="grid gap-3 md:grid-cols-5">
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search products..." className="border border-zinc-300 px-3 py-2 text-sm md:col-span-2" />
-        <select value={category} onChange={(e) => setCategory(e.target.value)} className="border border-zinc-300 px-3 py-2 text-sm">
+      <div className="surface-card p-4 md:p-5">
+        <div className="mb-4 flex items-center justify-between gap-2">
+          <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Refine products</p>
+          <button onClick={clearFilters} className="text-xs uppercase tracking-[0.15em] text-zinc-600 hover:text-zinc-900">Reset filters</button>
+        </div>
+        <div className="grid gap-3 md:grid-cols-5">
+        <input value={query} onChange={(e) => { setQuery(e.target.value); setPage(1); }} placeholder="Search products..." className="rounded-md border border-zinc-300 px-3 py-2 text-sm md:col-span-2" />
+        <select value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }} className="rounded-md border border-zinc-300 px-3 py-2 text-sm">
           <option value="all">All categories</option>
           <option value="women">Women</option>
           <option value="men">Men</option>
           <option value="kids">Kids</option>
         </select>
-        <select value={size} onChange={(e) => setSize(e.target.value)} className="border border-zinc-300 px-3 py-2 text-sm">
+        <select value={size} onChange={(e) => { setSize(e.target.value); setPage(1); }} className="rounded-md border border-zinc-300 px-3 py-2 text-sm">
           <option value="all">All sizes</option>
           <option value="S">S</option>
           <option value="M">M</option>
           <option value="L">L</option>
           <option value="XL">XL</option>
         </select>
-        <select value={sort} onChange={(e) => setSort(e.target.value)} className="border border-zinc-300 px-3 py-2 text-sm">
+        <select value={sort} onChange={(e) => setSort(e.target.value)} className="rounded-md border border-zinc-300 px-3 py-2 text-sm">
           <option value="newest">Newest</option>
           <option value="price-low">Price low-high</option>
           <option value="price-high">Price high-low</option>
         </select>
-      </div>
+        </div>
 
-      <div>
+        <div className="mt-4">
+          <div>
         <label className="mb-2 block text-xs uppercase tracking-[0.15em] text-zinc-500">Max price: {formatPriceWithDollarEquivalent(maxPrice)}</label>
-        <input type="range" min={10000} max={100000} value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} className="w-full" />
+        <input type="range" min={10000} max={100000} value={maxPrice} onChange={(e) => { setMaxPrice(Number(e.target.value)); setPage(1); }} className="w-full accent-zinc-900" />
+          </div>
+        </div>
       </div>
 
-      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="flex items-center justify-between text-xs uppercase tracking-[0.12em] text-zinc-500">
+        <p>{filtered.length} items found</p>
+        <p>Page {page} of {totalPages}</p>
+      </div>
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {paginated.map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}
       </div>
+
+      {paginated.length === 0 && (
+        <div className="surface-card p-10 text-center">
+          <p className="mb-2 text-sm uppercase tracking-[0.14em]">No products match your filters</p>
+          <button onClick={clearFilters} className="text-xs uppercase tracking-[0.15em] text-zinc-600 underline underline-offset-4 hover:text-zinc-900">Reset and browse all products</button>
+        </div>
+      )}
 
       <div className="flex items-center justify-center gap-3">
         <button disabled={page === 1} onClick={() => setPage((p) => p - 1)} className="border px-3 py-2 text-xs uppercase disabled:opacity-40">Prev</button>
