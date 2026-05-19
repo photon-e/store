@@ -6,7 +6,23 @@ from .models import Order, OrderItem, Product
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['id', 'name', 'slug', 'description', 'price_cents', 'is_active', 'created_at', 'updated_at']
+        fields = [
+            'id',
+            'name',
+            'slug',
+            'description',
+            'brand',
+            'category',
+            'gender',
+            'color',
+            'size',
+            'image_url',
+            'price_cents',
+            'stock_quantity',
+            'is_active',
+            'created_at',
+            'updated_at',
+        ]
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -19,6 +35,11 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         fields = ['id', 'product', 'product_id', 'quantity', 'unit_price_cents']
         read_only_fields = ['unit_price_cents']
+
+
+class AddOrderItemSerializer(serializers.Serializer):
+    product_id = serializers.PrimaryKeyRelatedField(queryset=Product.objects.filter(is_active=True), source='product')
+    quantity = serializers.IntegerField(min_value=1, default=1)
 
 
 class OrderSerializer(serializers.ModelSerializer):
