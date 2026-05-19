@@ -1,6 +1,6 @@
 # Store
 
-Zara-inspired storefront demo built with Tailwind CSS and vanilla JavaScript on the frontend, with a Django + Django REST Framework backend under `backend/`.
+Zara-inspired storefront demo built with **Next.js + Tailwind CSS** for the frontend and **Django + Django REST Framework** for the backend under `backend/`.
 
 ## Current deployment status
 
@@ -10,11 +10,29 @@ Zara-inspired storefront demo built with Tailwind CSS and vanilla JavaScript on 
 
 > If you want, we can add exact live URLs for Netlify and Vercel once you share the active project links.
 
-Open `index.html` in your browser.
+## Frontend (Next.js) - local development
 
-## Django backend (new)
+Use these steps to run the frontend in a local environment:
 
-A starter Django backend now lives in `backend/`.
+```bash
+npm install
+npm run dev
+```
+
+Then open:
+
+- `http://localhost:3000`
+
+### Production preview locally (optional)
+
+```bash
+npm run build
+npm start
+```
+
+## Django backend
+
+A starter Django backend lives in `backend/`.
 
 ### Quick start
 
