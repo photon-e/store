@@ -1,6 +1,6 @@
 # Store
 
-Zara-inspired storefront demo with:
+Zara-inspired storefront demo built with **Next.js + Tailwind CSS** for the frontend and **Django + Django REST Framework** for the backend under `backend/`.
 
 - **Frontend:** Next.js + Tailwind CSS
 - **Backend:** Django + Django REST Framework (`backend/`)
@@ -11,11 +11,29 @@ This guide focuses on making setup easy for:
 2. deploying the backend to **PythonAnywhere**,
 3. deploying the frontend to **Netlify** or **Vercel**.
 
----
+## Frontend (Next.js) - local development
 
-## 1) Local development (recommended first)
+Use these steps to run the frontend in a local environment:
 
-### Prerequisites
+```bash
+npm install
+npm run dev
+```
+
+Then open:
+
+- `http://localhost:3000`
+
+### Production preview locally (optional)
+
+```bash
+npm run build
+npm start
+```
+
+## Django backend
+
+A starter Django backend lives in `backend/`.
 
 Install these before starting:
 
