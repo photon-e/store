@@ -1,15 +1,14 @@
 # Store
 
-Zara-inspired storefront demo built with Tailwind CSS and vanilla JavaScript.
+Zara-inspired storefront demo built with Tailwind CSS and vanilla JavaScript on the frontend, with a Django + Django REST Framework backend under `backend/`.
 
-## Features
+## Current deployment status
 
-- Responsive hero and product listing layout
-- Product search, category filter, and sort
-- Add-to-cart flow with slide-out cart drawer
-- Quantity controls and subtotal calculation
+- **Netlify:** Frontend deployment target (static/storefront hosting).
+- **Vercel:** Frontend deployment target (Next.js-compatible hosting).
+- **Backend:** Django API currently intended for local development setup in this repository.
 
-## Run locally
+> If you want, we can add exact live URLs for Netlify and Vercel once you share the active project links.
 
 Open `index.html` in your browser.
 
