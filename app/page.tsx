@@ -2,6 +2,22 @@ import Link from 'next/link';
 import { sampleProducts } from '@/lib/sampleData';
 import { ProductCard } from '@/components/product/ProductCard';
 
+
+const featuredImageGrids = [
+  [
+    { src: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 1' },
+    { src: 'https://images.unsplash.com/photo-1464863979621-258859e62245?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 2' },
+    { src: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 3' },
+    { src: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 4' },
+  ],
+  [
+    { src: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 5' },
+    { src: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 6' },
+    { src: 'https://images.unsplash.com/photo-1551163943-3f7e29e93d81?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 7' },
+    { src: 'https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 8' },
+  ],
+];
+
 export default function HomePage() {
   return (
     <div>
@@ -22,6 +38,16 @@ export default function HomePage() {
           <h2 className="text-2xl uppercase tracking-[0.2em]">Featured</h2>
           <Link href="/shop" className="text-xs uppercase tracking-[0.18em] text-zinc-500">View all</Link>
         </div>
+        <div className="mb-10 space-y-6">
+          {featuredImageGrids.map((grid, gridIndex) => (
+            <div key={`featured-grid-${gridIndex}`} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {grid.map((image) => (
+                <img key={image.alt} src={image.src} alt={image.alt} className="h-64 w-full rounded-xl object-cover" />
+              ))}
+            </div>
+          ))}
+        </div>
+
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {sampleProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
