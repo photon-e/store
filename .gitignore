@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+.venv/
+venv/
+
+# Django static/media cache
+backend/staticfiles/
+backend/media/
