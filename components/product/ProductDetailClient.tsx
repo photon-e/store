@@ -4,11 +4,14 @@ import { useState } from 'react';
 import { Product } from '@/types';
 import { useCartStore } from '@/store/cartStore';
 import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import { useWishlistStore } from '@/store/wishlistStore';
 
 export function ProductDetailClient({ product }: { product: Product }) {
   const addItem = useCartStore((s) => s.addItem);
   const [size, setSize] = useState(product.sizes[0] || 'M');
   const [color, setColor] = useState(product.colors[0] || 'Black');
+  const toggleWishlist = useWishlistStore((s) => s.toggle);
+  const wished = useWishlistStore((s) => s.has(product._id));
 
   return (
     <>
@@ -39,12 +42,20 @@ export function ProductDetailClient({ product }: { product: Product }) {
         </div>
       </div>
 
-      <button
-        onClick={() => addItem({ productId: product._id, name: product.name, image: product.images[0], price: product.price, size, color, quantity: 1 })}
-        className="mt-8 w-full bg-zinc-900 px-4 py-3 text-xs uppercase tracking-[0.2em] text-white"
-      >
-        Add to cart
-      </button>
+      <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <button
+          onClick={() => addItem({ productId: product._id, name: product.name, image: product.images[0], price: product.price, size, color, quantity: 1 })}
+          className="w-full bg-zinc-900 px-4 py-3 text-xs uppercase tracking-[0.2em] text-white"
+        >
+          Add to cart
+        </button>
+        <button
+          onClick={() => toggleWishlist(product._id)}
+          className={`w-full border px-4 py-3 text-xs uppercase tracking-[0.2em] transition ${wished ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 text-zinc-900 hover:border-zinc-900'}`}
+        >
+          {wished ? 'Wishlisted' : 'Wishlist'}
+        </button>
+      </div>
     </>
   );
 }
