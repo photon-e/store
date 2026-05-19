@@ -40,9 +40,21 @@ export default function HomePage() {
         </div>
         <div className="mb-10 space-y-6">
           {featuredImageGrids.map((grid, gridIndex) => (
-            <div key={`featured-grid-${gridIndex}`} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div key={`featured-grid-${gridIndex}`} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {grid.map((image) => (
-                <img key={image.alt} src={image.src} alt={image.alt} className="h-64 w-full rounded-xl object-cover" />
+                <article key={image.alt} className="group surface-card overflow-hidden">
+                  <div className="relative overflow-hidden bg-zinc-100">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="h-80 w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute bottom-4 left-4 bg-black/70 px-3 py-2 text-white">
+                      <p className="text-base font-black uppercase tracking-[0.14em]">GENERAL</p>
+                      <p className="text-xs tracking-[0.25em]">FEATURED</p>
+                    </div>
+                  </div>
+                </article>
               ))}
             </div>
           ))}
