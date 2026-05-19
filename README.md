@@ -30,5 +30,3 @@ python manage.py runserver
 ### First endpoint
 
 - `GET /api/health/` returns backend health JSON.
-
-- Includes Django REST Framework routers for products and carts.
