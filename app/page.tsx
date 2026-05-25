@@ -5,16 +5,16 @@ import { ProductCard } from '@/components/product/ProductCard';
 
 const featuredImageGrids = [
   [
-    { src: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 1' },
-    { src: 'https://images.unsplash.com/photo-1464863979621-258859e62245?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 2' },
-    { src: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 3' },
-    { src: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 4' },
+    { src: '/images/product-1.jpg', alt: 'GENERAL look 1' },
+    { src: '/images/product-2.jpg', alt: 'GENERAL look 2' },
+    { src: '/images/product-3.jpg', alt: 'GENERAL look 3' },
+    { src: '/images/product-4.jpg', alt: 'GENERAL look 4' },
   ],
   [
-    { src: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 5' },
-    { src: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 6' },
-    { src: 'https://images.unsplash.com/photo-1551163943-3f7e29e93d81?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 7' },
-    { src: 'https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=80', alt: 'Featured look 8' },
+    { src: '/images/product-2.jpg', alt: 'GENERAL look 5' },
+    { src: '/images/product-1.jpg', alt: 'GENERAL look 6' },
+    { src: '/images/product-4.jpg', alt: 'GENERAL look 7' },
+    { src: '/images/product-3.jpg', alt: 'GENERAL look 8' },
   ],
 ];
 
@@ -47,7 +47,7 @@ export default function HomePage() {
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="h-80 w-full object-cover transition duration-500 group-hover:scale-105"
+                      className="aspect-square w-full object-cover object-center transition duration-500 group-hover:scale-105"
                     />
                     <div className="absolute bottom-4 left-4 bg-black/70 px-3 py-2 text-white">
                       <p className="text-base font-black uppercase tracking-[0.14em]">GENERAL</p>
