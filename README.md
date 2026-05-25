@@ -1,47 +1,21 @@
 # Store
 
-Zara-inspired storefront demo built with **Next.js + Tailwind CSS** for the frontend and **Django + Django REST Framework** for the backend under `backend/`.
+Zara-inspired storefront demo with a **Next.js frontend** and a **Django REST backend** (`backend/`).
 
-- **Frontend:** Next.js + Tailwind CSS
-- **Backend:** Django + Django REST Framework (`backend/`)
+## Tech stack
+- Frontend: Next.js + Tailwind CSS
+- Backend: Django + Django REST Framework
+- Default local DB: SQLite
 
-This guide focuses on making setup easy for:
+## 1) Local development (frontend + backend)
 
-1. local development,
-2. deploying the backend to **PythonAnywhere**,
-3. deploying the frontend to **Netlify** or **Vercel**.
+### Prerequisites
+- Node.js 20+
+- npm 10+
+- Python 3.10+
+- Git
 
-## Frontend (Next.js) - local development
-
-Use these steps to run the frontend in a local environment:
-
-```bash
-npm install
-npm run dev
-```
-
-Then open:
-
-- `http://localhost:3000`
-
-### Production preview locally (optional)
-
-```bash
-npm run build
-npm start
-```
-
-## Django backend
-
-A starter Django backend lives in `backend/`.
-
-Install these before starting:
-
-- **Node.js 20+** and npm
-- **Python 3.10+**
-- **Git**
-
-Check your versions:
+Check versions:
 
 ```bash
 node -v
@@ -50,37 +24,22 @@ python3 --version
 git --version
 ```
 
----
-
-## 2) Run the frontend locally (Next.js)
-
-From the repository root:
+### Start frontend
+From repository root:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open:
+Frontend runs at `http://localhost:3000`.
 
-- `http://localhost:3000`
-
-Optional production-mode check:
-
-```bash
-npm run build
-npm start
-```
-
----
-
-## 3) Run the backend locally (Django)
-
-From the repository root:
+### Start backend
+From repository root:
 
 ```bash
 cd backend
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
@@ -88,145 +47,81 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-Backend will be available at:
+Backend runs at `http://127.0.0.1:8000`.
 
-- `http://127.0.0.1:8000`
+Useful endpoints:
+- Health: `GET /api/health/`
+- Products: `GET /api/products/`
+- Product filters metadata: `GET /api/products/filters/`
 
-Health endpoint:
-
-- `GET http://127.0.0.1:8000/api/health/`
-
-### Local workflow tip
-
+### Recommended local workflow
 Use two terminals:
+- Terminal A: frontend (`npm run dev`)
+- Terminal B: backend (`python manage.py runserver`)
 
-- Terminal A: run frontend (`npm run dev`)
-- Terminal B: run backend (`python manage.py runserver`)
+## 2) Production-oriented Django settings
+Before deployment, update `backend/store_backend/settings.py`:
+- `DEBUG = False`
+- strong `SECRET_KEY`
+- `ALLOWED_HOSTS` includes your PythonAnywhere domain
+- configure CSRF/CORS trusted origins for your frontend domain(s)
 
----
+Example `ALLOWED_HOSTS` entries:
+- `<username>.pythonanywhere.com`
+- your frontend host(s), e.g. Vercel/Netlify custom domain
 
-## 4) Deploy backend on PythonAnywhere
+## 3) Deploy backend on PythonAnywhere
 
-> Goal: host only the Django backend on PythonAnywhere.
-
-### Step A - Create app + virtualenv
-
-1. Create a PythonAnywhere account and open a **Bash console**.
-2. Clone this repo:
+### A. Create app and install dependencies
+In a PythonAnywhere Bash console:
 
 ```bash
 git clone <your-repo-url> ~/store
 cd ~/store/backend
-```
-
-3. Create and activate a virtualenv:
-
-```bash
 python3.10 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
-```
-
-4. Initialize DB:
-
-```bash
 python manage.py migrate
-```
-
-### Step B - Configure Django settings for production
-
-Update `backend/store_backend/settings.py` before production use:
-
-- set `DEBUG = False`,
-- set a strong `SECRET_KEY`,
-- set `ALLOWED_HOSTS` to include your PythonAnywhere domain,
-- (recommended) configure CORS/CSRF trusted origins for your frontend domain(s).
-
-Example host values to allow:
-
-- `<yourusername>.pythonanywhere.com`
-- your Netlify/Vercel frontend domain(s)
-
-### Step C - Configure PythonAnywhere web app
-
-1. In PythonAnywhere dashboard, create a **new web app** (manual config, Python 3.10+).
-2. Set virtualenv path to `~/store/backend/.venv`.
-3. Edit WSGI file to point to Django project path and app object (`store_backend.wsgi.application`).
-4. Reload the web app.
-
-### Step D - Static files
-
-Collect static files once your production settings are ready:
-
-```bash
-cd ~/store/backend
-source .venv/bin/activate
 python manage.py collectstatic --noinput
 ```
 
-Then configure static mapping in PythonAnywhere Web tab if needed.
+### B. Create web app
+1. PythonAnywhere dashboard → **Web** → **Add a new web app**
+2. Choose **Manual configuration** and Python 3.10+
+3. Virtualenv path: `~/store/backend/.venv`
 
----
+### C. Configure WSGI
+Edit the PythonAnywhere WSGI file and ensure project path is configured:
 
-## 5) Deploy frontend on Vercel
+```python
+import os
+import sys
 
-> Best fit for Next.js.
+path = '/home/<username>/store/backend'
+if path not in sys.path:
+    sys.path.append(path)
 
-1. Push your repo to GitHub/GitLab/Bitbucket.
-2. Import project in Vercel.
-3. Build settings (usually auto-detected):
-   - Build command: `npm run build`
-   - Output: Next.js default
-4. Add environment variables (if your app uses API URL config).
-5. Deploy.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'store_backend.settings')
 
-After deploy, point frontend API calls to your PythonAnywhere backend URL.
-
----
-
-## 6) Deploy frontend on Netlify
-
-> Netlify works, but Next.js deployments may require adapter/runtime configuration depending on features used.
-
-1. Import repo in Netlify.
-2. Use build command:
-
-```bash
-npm run build
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
 ```
 
-3. Publish directory depends on your Netlify Next.js setup (plugin/runtime).
-4. Add environment variables for backend API URL.
-5. Deploy and verify pages/API usage.
+### D. Reload and verify
+- Reload the web app from PythonAnywhere Web tab
+- Verify `https://<username>.pythonanywhere.com/api/health/`
 
-If you use advanced Next.js server features, Vercel is typically the smoothest deployment path.
+## 4) Deploy frontend (Vercel recommended)
 
----
+1. Push repo to Git provider
+2. Import into Vercel
+3. Build command: `npm run build` (usually auto-detected)
+4. Set frontend environment variable(s) to your backend URL
+5. Deploy and test API-backed pages
 
-## 7) Connect frontend + backend in production
-
-After both are deployed:
-
-1. Set frontend API base URL to your PythonAnywhere backend domain.
-2. Allow frontend domains in backend security settings (`ALLOWED_HOSTS`, and CORS/CSRF config if enabled).
-3. Test from deployed frontend:
-   - page load
-   - API-backed views
-   - `GET /api/health/`
-
----
-
-## 8) Common troubleshooting
-
-- **`ModuleNotFoundError` on PythonAnywhere:** confirm virtualenv path and reinstall `requirements.txt`.
-- **400/403 host errors:** verify `ALLOWED_HOSTS` and trusted origins include exact deployed domains.
-- **Frontend can’t reach backend:** confirm correct backend URL and HTTPS usage.
-- **Static assets missing (backend):** run `collectstatic` and verify static mapping.
-
----
-
-## Current deployment intent
-
-- **Backend host:** PythonAnywhere
-- **Frontend host:** Netlify or Vercel
+## 5) Troubleshooting
+- `ModuleNotFoundError`: activate the correct virtualenv and reinstall requirements
+- Host/CSRF errors: verify host/origin entries exactly match deployed URLs
+- API connection issues: verify HTTPS URL and backend availability
+- Missing static files on PythonAnywhere: rerun `collectstatic` and static mapping
