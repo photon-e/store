@@ -1,6 +1,6 @@
 # Store
 
-This repository is organized as a full-stack monorepo with separate folders for the frontend and backend:
+This repository is organized as a full-stack monorepo with separate folders:
 
 - `frontend/` → Next.js + Tailwind storefront
 - `backend/` → Django + Django REST Framework API
@@ -10,7 +10,43 @@ This repository is organized as a full-stack monorepo with separate folders for 
 ```text
 store/
   frontend/
+    app/
+    components/
+    lib/
+    public/
+    package.json
   backend/
+    api/
+    store_backend/
+    manage.py
+```
+
+## If your PR shows a complex merge conflict
+
+If your branch was created before the folder split, conflicts are expected because many frontend files were moved from repo root into `frontend/`.
+
+Use this mapping when resolving conflicts locally:
+
+- `app/*` → `frontend/app/*`
+- `components/*` → `frontend/components/*`
+- `lib/*` → `frontend/lib/*`
+- `models/*` → `frontend/models/*`
+- `public/*` → `frontend/public/*`
+- `services/*` → `frontend/services/*`
+- `store/*` → `frontend/store/*`
+- `types/*` → `frontend/types/*`
+- `scripts/*` → `frontend/scripts/*`
+- `package.json`, `tsconfig.json`, `next.config.ts`, `tailwind.config.ts`, `postcss.config.js`, `middleware.ts`, `next-env.d.ts`, `index.html` → now under `frontend/`
+
+Recommended local conflict workflow:
+
+```bash
+git fetch origin
+git checkout <your-branch>
+git merge origin/main
+# resolve conflicts using the mapping above
+git add -A
+git commit
 ```
 
 ## Local development
@@ -50,14 +86,7 @@ Useful backend endpoints:
 - `GET /api/products/`
 - `GET /api/products/filters/`
 
-### Recommended workflow
-Use two terminals:
-- Terminal A: `cd frontend && npm run dev`
-- Terminal B: `cd backend && python manage.py runserver`
-
 ## Deploy backend on PythonAnywhere
-
-### 1) Install and initialize
 
 ```bash
 git clone <your-repo-url> ~/store
@@ -70,12 +99,7 @@ python manage.py migrate
 python manage.py collectstatic --noinput
 ```
 
-### 2) Create web app
-1. PythonAnywhere dashboard → **Web** → **Add a new web app**
-2. Choose **Manual configuration** + Python 3.10+
-3. Set virtualenv path to `~/store/backend/.venv`
-
-### 3) Configure WSGI
+WSGI snippet:
 
 ```python
 import os
@@ -91,18 +115,17 @@ from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 ```
 
-### 4) Production settings
 In `backend/store_backend/settings.py`, set:
 - `DEBUG = False`
 - secure `SECRET_KEY`
 - `ALLOWED_HOSTS` including `<username>.pythonanywhere.com`
 - CSRF/CORS trusted origins including your frontend domain
 
-## Deploy frontend (Vercel recommended)
+## Deploy frontend
 
 ```bash
 cd frontend
 npm run build
 ```
 
-Then deploy from the `frontend/` directory in Vercel/Netlify and configure frontend environment variables to point at your backend URL.
+Deploy from `frontend/` in Vercel/Netlify and set frontend environment variables to your backend URL.
