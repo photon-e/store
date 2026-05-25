@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Product } from '@/types';
 import { ProductCard } from '@/components/product/ProductCard';
 import { formatPriceWithDollarEquivalent } from '@/lib/currency';
@@ -11,7 +11,11 @@ export function ShopClient({ products }: { products: Product[] }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
   const [size, setSize] = useState('all');
-  const [maxPrice, setMaxPrice] = useState(100000);
+  const availableCategories = useMemo(() => Array.from(new Set(products.map((p) => p.category))), [products]);
+  const availableSizes = useMemo(() => Array.from(new Set(products.flatMap((p) => p.sizes))).sort(), [products]);
+  const maxAvailablePrice = useMemo(() => Math.max(...products.map((p) => p.price), 10000), [products]);
+
+  const [maxPrice, setMaxPrice] = useState(maxAvailablePrice);
   const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
 
@@ -36,10 +40,14 @@ export function ShopClient({ products }: { products: Product[] }) {
     setQuery('');
     setCategory('all');
     setSize('all');
-    setMaxPrice(100000);
+    setMaxPrice(maxAvailablePrice);
     setSort('newest');
     setPage(1);
   };
+
+  useEffect(() => {
+    setMaxPrice(maxAvailablePrice);
+  }, [maxAvailablePrice]);
 
   return (
     <div className="space-y-8">
@@ -52,16 +60,19 @@ export function ShopClient({ products }: { products: Product[] }) {
         <input value={query} onChange={(e) => { setQuery(e.target.value); setPage(1); }} placeholder="Search products..." className="rounded-md border border-zinc-300 px-3 py-2 text-sm md:col-span-2" />
         <select value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }} className="rounded-md border border-zinc-300 px-3 py-2 text-sm">
           <option value="all">All categories</option>
-          <option value="women">Women</option>
-          <option value="men">Men</option>
-          <option value="kids">Kids</option>
+          {availableCategories.map((value) => (
+            <option key={value} value={value}>
+              {value[0].toUpperCase() + value.slice(1)}
+            </option>
+          ))}
         </select>
         <select value={size} onChange={(e) => { setSize(e.target.value); setPage(1); }} className="rounded-md border border-zinc-300 px-3 py-2 text-sm">
           <option value="all">All sizes</option>
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L">L</option>
-          <option value="XL">XL</option>
+          {availableSizes.map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
         </select>
         <select value={sort} onChange={(e) => setSort(e.target.value)} className="rounded-md border border-zinc-300 px-3 py-2 text-sm">
           <option value="newest">Newest</option>
@@ -73,7 +84,7 @@ export function ShopClient({ products }: { products: Product[] }) {
         <div className="mt-4">
           <div>
         <label className="mb-2 block text-xs uppercase tracking-[0.15em] text-zinc-500">Max price: {formatPriceWithDollarEquivalent(maxPrice)}</label>
-        <input type="range" min={10000} max={100000} value={maxPrice} onChange={(e) => { setMaxPrice(Number(e.target.value)); setPage(1); }} className="w-full accent-zinc-900" />
+        <input type="range" min={10000} max={maxAvailablePrice} value={maxPrice} onChange={(e) => { setMaxPrice(Number(e.target.value)); setPage(1); }} className="w-full accent-zinc-900" />
           </div>
         </div>
       </div>

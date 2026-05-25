@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Count, Max, Min, Q
 from django.http import JsonResponse
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
@@ -10,6 +10,33 @@ from .serializers import AddOrderItemSerializer, OrderSerializer, ProductSeriali
 
 def health_check(_: object) -> JsonResponse:
     return JsonResponse({'status': 'ok', 'service': 'django-backend'})
+
+
+def product_filters(_: object) -> JsonResponse:
+    base = Product.objects.filter(is_active=True)
+    categories = sorted([value for value in base.values_list('category', flat=True).distinct() if value])
+    colors = sorted([value for value in base.values_list('color', flat=True).distinct() if value])
+    sizes = sorted([value for value in base.values_list('size', flat=True).distinct() if value])
+
+    price_range = base.aggregate(min_price_cents=Min('price_cents'), max_price_cents=Max('price_cents'))
+    category_counts = {
+        row['category']: row['count']
+        for row in base.values('category').annotate(count=Count('id'))
+        if row['category']
+    }
+
+    return JsonResponse(
+        {
+            'categories': categories,
+            'colors': colors,
+            'sizes': sizes,
+            'counts': {'products': base.count(), 'by_category': category_counts},
+            'price_cents': {
+                'min': price_range['min_price_cents'] or 0,
+                'max': price_range['max_price_cents'] or 0,
+            },
+        }
+    )
 
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
