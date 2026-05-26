@@ -3,20 +3,7 @@ import { sampleProducts } from '@/lib/sampleData';
 import { ProductCard } from '@/components/product/ProductCard';
 
 
-const featuredImageGrids = [
-  [
-    { src: '/images/product-1.jpg', alt: 'GENERAL look 1' },
-    { src: '/images/product-2.jpg', alt: 'GENERAL look 2' },
-    { src: '/images/product-3.jpg', alt: 'GENERAL look 3' },
-    { src: '/images/product-4.jpg', alt: 'GENERAL look 4' },
-  ],
-  [
-    { src: '/images/product-2.jpg', alt: 'GENERAL look 5' },
-    { src: '/images/product-1.jpg', alt: 'GENERAL look 6' },
-    { src: '/images/product-4.jpg', alt: 'GENERAL look 7' },
-    { src: '/images/product-3.jpg', alt: 'GENERAL look 8' },
-  ],
-];
+
 
 export default function HomePage() {
   return (
@@ -38,26 +25,11 @@ export default function HomePage() {
           <h2 className="text-2xl uppercase tracking-[0.2em]">Featured</h2>
           <Link href="/shop" className="text-xs uppercase tracking-[0.18em] text-zinc-500">View all</Link>
         </div>
-        <div className="mb-10 space-y-6">
-          {featuredImageGrids.map((grid, gridIndex) => (
-            <div key={`featured-grid-${gridIndex}`} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {grid.map((image) => (
-                <article key={image.alt} className="group surface-card overflow-hidden">
-                  <div className="relative overflow-hidden bg-zinc-100">
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      className="aspect-square w-full object-cover object-center transition duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute bottom-4 left-4 bg-black/70 px-3 py-2 text-white">
-                      <p className="text-base font-black uppercase tracking-[0.14em]">GENERAL</p>
-                      <p className="text-xs tracking-[0.25em]">FEATURED</p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          ))}
+        <div className="mb-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, index) => {
+            const product = sampleProducts[index % sampleProducts.length];
+            return <ProductCard key={`featured-${product._id}-${index}`} product={product} />;
+          })}
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
