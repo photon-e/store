@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <div>
       <section className="relative">
-        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1900&q=80" alt="Hero" className="h-[60vh] w-full object-cover md:h-[75vh]" />
+        <img src="/images/product-2.jpg" alt="GENERAL hero hoodie" className="h-[60vh] w-full object-cover md:h-[75vh]" />
         <div className="absolute inset-0 bg-black/35" />
         <div className="absolute inset-0 container-page flex items-end pb-16">
           <div className="max-w-xl text-white">
