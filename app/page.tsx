@@ -2,16 +2,8 @@ import Link from 'next/link';
 import { sampleProducts } from '@/lib/sampleData';
 import { ProductCard } from '@/components/product/ProductCard';
 
-const featuredCardImages = [
-  '/images/product-1.jpg',
-  '/images/product-2.jpg',
-  '/images/product-3.jpg',
-  '/images/product-4.jpg',
-  '/images/product-5.jpg',
-  '/images/product-6.jpg',
-  '/images/product-1.jpg',
-  '/images/product-2.jpg',
-];
+
+
 
 
 export default function HomePage() {
@@ -35,16 +27,9 @@ export default function HomePage() {
           <Link href="/shop" className="text-xs uppercase tracking-[0.18em] text-zinc-500">View all</Link>
         </div>
         <div className="mb-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {featuredCardImages.map((image, index) => {
-            const baseProduct = sampleProducts[index % sampleProducts.length];
-            const featuredProduct = {
-              ...baseProduct,
-              _id: `featured-${baseProduct._id}-${index}`,
-              slug: `${baseProduct.slug}-featured-${index + 1}`,
-              images: [image],
-            };
-
-            return <ProductCard key={featuredProduct._id} product={featuredProduct} />;
+          {Array.from({ length: 8 }).map((_, index) => {
+            const product = sampleProducts[index % sampleProducts.length];
+            return <ProductCard key={`featured-${product._id}-${index}`} product={product} />;
           })}
         </div>
 
