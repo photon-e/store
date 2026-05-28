@@ -4,6 +4,9 @@ import { useMemo, useState } from 'react';
 import { Product } from '@/types';
 import { ProductCard } from '@/components/product/ProductCard';
 import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Select } from '@/components/ui/Select';
 
 const PAGE_SIZE = 6;
 
@@ -46,41 +49,77 @@ export function ShopClient({ products }: { products: Product[] }) {
       <div className="surface-card p-4 md:p-5">
         <div className="mb-4 flex items-center justify-between gap-2">
           <p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Refine products</p>
-          <button onClick={clearFilters} className="text-xs uppercase tracking-[0.15em] text-zinc-600 hover:text-zinc-900">Reset filters</button>
+          <Button onClick={clearFilters} variant="ghost">
+            Reset filters
+          </Button>
         </div>
         <div className="grid gap-3 md:grid-cols-5">
-        <input value={query} onChange={(e) => { setQuery(e.target.value); setPage(1); }} placeholder="Search products..." className="rounded-md border border-zinc-300 px-3 py-2 text-sm md:col-span-2" />
-        <select value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }} className="rounded-md border border-zinc-300 px-3 py-2 text-sm">
-          <option value="all">All categories</option>
-          <option value="women">Women</option>
-          <option value="men">Men</option>
-          <option value="kids">Kids</option>
-        </select>
-        <select value={size} onChange={(e) => { setSize(e.target.value); setPage(1); }} className="rounded-md border border-zinc-300 px-3 py-2 text-sm">
-          <option value="all">All sizes</option>
-          <option value="S">S</option>
-          <option value="M">M</option>
-          <option value="L">L</option>
-          <option value="XL">XL</option>
-        </select>
-        <select value={sort} onChange={(e) => setSort(e.target.value)} className="rounded-md border border-zinc-300 px-3 py-2 text-sm">
-          <option value="newest">Newest</option>
-          <option value="price-low">Price low-high</option>
-          <option value="price-high">Price high-low</option>
-        </select>
+          <Input
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Search products..."
+            className="md:col-span-2"
+          />
+          <Select
+            value={category}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setPage(1);
+            }}
+          >
+            <option value="all">All categories</option>
+            <option value="women">Women</option>
+            <option value="men">Men</option>
+            <option value="kids">Kids</option>
+          </Select>
+          <Select
+            value={size}
+            onChange={(e) => {
+              setSize(e.target.value);
+              setPage(1);
+            }}
+          >
+            <option value="all">All sizes</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </Select>
+          <Select value={sort} onChange={(e) => setSort(e.target.value)}>
+            <option value="newest">Newest</option>
+            <option value="price-low">Price low-high</option>
+            <option value="price-high">Price high-low</option>
+          </Select>
         </div>
 
         <div className="mt-4">
           <div>
-        <label className="mb-2 block text-xs uppercase tracking-[0.15em] text-zinc-500">Max price: {formatPriceWithDollarEquivalent(maxPrice)}</label>
-        <input type="range" min={10000} max={100000} value={maxPrice} onChange={(e) => { setMaxPrice(Number(e.target.value)); setPage(1); }} className="w-full accent-zinc-900" />
+            <label className="mb-2 block text-xs uppercase tracking-[0.15em] text-zinc-500">
+              Max price: {formatPriceWithDollarEquivalent(maxPrice)}
+            </label>
+            <input
+              type="range"
+              min={10000}
+              max={100000}
+              value={maxPrice}
+              onChange={(e) => {
+                setMaxPrice(Number(e.target.value));
+                setPage(1);
+              }}
+              className="w-full accent-zinc-900"
+            />
           </div>
         </div>
       </div>
 
       <div className="flex items-center justify-between text-xs uppercase tracking-[0.12em] text-zinc-500">
         <p>{filtered.length} items found</p>
-        <p>Page {page} of {totalPages}</p>
+        <p>
+          Page {page} of {totalPages}
+        </p>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -92,14 +131,25 @@ export function ShopClient({ products }: { products: Product[] }) {
       {paginated.length === 0 && (
         <div className="surface-card p-10 text-center">
           <p className="mb-2 text-sm uppercase tracking-[0.14em]">No products match your filters</p>
-          <button onClick={clearFilters} className="text-xs uppercase tracking-[0.15em] text-zinc-600 underline underline-offset-4 hover:text-zinc-900">Reset and browse all products</button>
+          <button
+            onClick={clearFilters}
+            className="text-xs uppercase tracking-[0.15em] text-zinc-600 underline underline-offset-4 hover:text-zinc-900"
+          >
+            Reset and browse all products
+          </button>
         </div>
       )}
 
       <div className="flex items-center justify-center gap-3">
-        <button disabled={page === 1} onClick={() => setPage((p) => p - 1)} className="border px-3 py-2 text-xs uppercase disabled:opacity-40">Prev</button>
-        <span className="text-xs uppercase tracking-[0.15em]">{page} / {totalPages}</span>
-        <button disabled={page === totalPages} onClick={() => setPage((p) => p + 1)} className="border px-3 py-2 text-xs uppercase disabled:opacity-40">Next</button>
+        <Button variant="outline" size="sm" disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
+          Prev
+        </Button>
+        <span className="text-xs uppercase tracking-[0.15em]">
+          {page} / {totalPages}
+        </span>
+        <Button variant="outline" size="sm" disabled={page === totalPages} onClick={() => setPage((p) => p + 1)}>
+          Next
+        </Button>
       </div>
     </div>
   );

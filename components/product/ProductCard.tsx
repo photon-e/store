@@ -6,17 +6,22 @@ import { Product } from '@/types';
 import { useCartStore } from '@/store/cartStore';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import { Button } from '@/components/ui/Button';
 
 export function ProductCard({ product }: { product: Product }) {
   const addItem = useCartStore((s) => s.addItem);
   const toggle = useWishlistStore((s) => s.toggle);
   const wished = useWishlistStore((s) => s.has(product._id));
 
+  const primaryImage = product.images[0];
+  const defaultSize = product.sizes[0];
+  const defaultColor = product.colors[0];
+
   return (
     <article className="group surface-card overflow-hidden">
       <Link href={`/product/${product.slug}`} className="relative block overflow-hidden bg-zinc-100">
         <Image
-          src={product.images[0]}
+          src={primaryImage}
           alt={product.name}
           width={700}
           height={900}
@@ -34,28 +39,32 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
         <p className="text-xs uppercase tracking-[0.12em] text-zinc-500">{product.category}</p>
         <div className="grid grid-cols-2 gap-2">
-          <button
+          <Button
+            className="w-full"
+            variant="outline"
+            size="sm"
             onClick={() =>
               addItem({
-              productId: product._id,
-              name: product.name,
-              price: product.price,
-              image: product.images[0],
-              size: product.sizes[0],
-              color: product.colors[0],
-              quantity: 1,
-            })
-          }
-          className="w-full rounded-md border border-zinc-900 px-3 py-2 text-xs uppercase tracking-[0.16em] transition hover:bg-zinc-900 hover:text-white"
+                productId: product._id,
+                name: product.name,
+                price: product.price,
+                image: primaryImage,
+                size: defaultSize,
+                color: defaultColor,
+                quantity: 1,
+              })
+            }
           >
             Add to cart
-          </button>
-          <button
+          </Button>
+          <Button
+            className="w-full"
+            variant={wished ? 'primary' : 'outline'}
+            size="sm"
             onClick={() => toggle(product._id)}
-            className={`w-full rounded-md border px-3 py-2 text-xs uppercase tracking-[0.16em] transition ${wished ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 hover:border-zinc-900'}`}
           >
             {wished ? 'Wishlisted' : 'Wishlist'}
-          </button>
+          </Button>
         </div>
       </div>
     </article>

@@ -2,10 +2,6 @@ import Link from 'next/link';
 import { sampleProducts } from '@/lib/sampleData';
 import { ProductCard } from '@/components/product/ProductCard';
 
-
-
-
-
 export default function HomePage() {
   return (
     <div>

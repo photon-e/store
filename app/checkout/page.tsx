@@ -4,6 +4,8 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
 import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -52,31 +54,45 @@ export default function CheckoutPage() {
     <div className="container-page py-10">
       <h1 className="mb-8 text-2xl uppercase tracking-[0.2em]">Checkout</h1>
       <div className="grid gap-8 lg:grid-cols-2">
-        <form onSubmit={submit} className="space-y-4 border p-5">
+        <form onSubmit={submit} className="surface-card space-y-4 p-5">
           <h2 className="text-sm uppercase tracking-[0.16em]">Shipping</h2>
-          <input required name="fullName" placeholder="Full Name" className="w-full border px-3 py-2 text-sm" />
-          <input required type="email" name="email" placeholder="Email" className="w-full border px-3 py-2 text-sm" />
-          <input required name="address" placeholder="Address" className="w-full border px-3 py-2 text-sm" />
+          <Input required name="fullName" placeholder="Full Name" autoComplete="name" />
+          <Input required type="email" name="email" placeholder="Email" autoComplete="email" />
+          <Input required name="address" placeholder="Address" autoComplete="street-address" />
           <div className="grid gap-3 sm:grid-cols-2">
-            <input required name="city" placeholder="City" className="w-full border px-3 py-2 text-sm" />
-            <input required name="postalCode" placeholder="Postal code" className="w-full border px-3 py-2 text-sm" />
+            <Input required name="city" placeholder="City" autoComplete="address-level2" />
+            <Input required name="postalCode" placeholder="Postal code" autoComplete="postal-code" />
           </div>
-          <input required name="country" placeholder="Country" className="w-full border px-3 py-2 text-sm" />
-          <button disabled={loading || items.length === 0} className="w-full bg-zinc-900 px-4 py-3 text-xs uppercase tracking-[0.2em] text-white disabled:opacity-40">
+          <Input required name="country" placeholder="Country" autoComplete="country-name" />
+          <Button disabled={loading || items.length === 0} className="w-full" variant="primary" type="submit">
             {loading ? 'Processing...' : 'Pay with Stripe'}
-          </button>
+          </Button>
         </form>
 
-        <aside className="h-fit border p-5">
+        <aside className="surface-card h-fit p-5">
           <h2 className="mb-4 text-sm uppercase tracking-[0.16em]">Order summary</h2>
           <div className="space-y-2 text-sm">
             {items.map((item) => (
-              <p key={`${item.productId}-${item.size}-${item.color}`} className="flex justify-between"><span>{item.name} × {item.quantity}</span><span>{formatPriceWithDollarEquivalent(item.price * item.quantity)}</span></p>
+              <p key={`${item.productId}-${item.size}-${item.color}`} className="flex justify-between">
+                <span>
+                  {item.name} × {item.quantity}
+                </span>
+                <span>{formatPriceWithDollarEquivalent(item.price * item.quantity)}</span>
+              </p>
             ))}
             <hr className="my-3" />
-            <p className="flex justify-between"><span>Subtotal</span><span>{formatPriceWithDollarEquivalent(subtotal())}</span></p>
-            <p className="flex justify-between"><span>Tax</span><span>{formatPriceWithDollarEquivalent(tax())}</span></p>
-            <p className="flex justify-between font-semibold"><span>Total</span><span>{formatPriceWithDollarEquivalent(total())}</span></p>
+            <p className="flex justify-between">
+              <span>Subtotal</span>
+              <span>{formatPriceWithDollarEquivalent(subtotal())}</span>
+            </p>
+            <p className="flex justify-between">
+              <span>Tax</span>
+              <span>{formatPriceWithDollarEquivalent(tax())}</span>
+            </p>
+            <p className="flex justify-between font-semibold">
+              <span>Total</span>
+              <span>{formatPriceWithDollarEquivalent(total())}</span>
+            </p>
           </div>
         </aside>
       </div>

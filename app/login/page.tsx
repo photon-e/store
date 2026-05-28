@@ -3,6 +3,8 @@
 import { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,12 +28,19 @@ export default function LoginPage() {
 
   return (
     <div className="container-page py-16">
-      <form onSubmit={submit} className="mx-auto max-w-md space-y-4 border p-6">
+      <form onSubmit={submit} className="surface-card mx-auto max-w-md space-y-4 p-6">
         <h1 className="text-xl uppercase tracking-[0.2em]">Login</h1>
-        <input required type="email" name="email" placeholder="Email" className="w-full border px-3 py-2 text-sm" />
-        <input required type="password" name="password" placeholder="Password" className="w-full border px-3 py-2 text-sm" />
-        <button className="w-full bg-zinc-900 py-3 text-xs uppercase tracking-[0.18em] text-white">Sign in</button>
-        <p className="text-sm text-zinc-600">No account? <Link href="/register" className="underline">Create one</Link></p>
+        <Input required type="email" name="email" placeholder="Email" autoComplete="email" />
+        <Input required type="password" name="password" placeholder="Password" autoComplete="current-password" />
+        <Button className="w-full" variant="primary" type="submit">
+          Sign in
+        </Button>
+        <p className="text-sm text-zinc-600">
+          No account?{' '}
+          <Link href="/register" className="underline">
+            Create one
+          </Link>
+        </p>
       </form>
     </div>
   );

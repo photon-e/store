@@ -5,6 +5,7 @@ import { Product } from '@/types';
 import { useCartStore } from '@/store/cartStore';
 import { formatPriceWithDollarEquivalent } from '@/lib/currency';
 import { useWishlistStore } from '@/store/wishlistStore';
+import { Button } from '@/components/ui/Button';
 
 export function ProductDetailClient({ product }: { product: Product }) {
   const addItem = useCartStore((s) => s.addItem);
@@ -24,9 +25,9 @@ export function ProductDetailClient({ product }: { product: Product }) {
           <p className="mb-2 text-xs uppercase tracking-[0.15em]">Size</p>
           <div className="flex gap-2">
             {product.sizes.map((s) => (
-              <button key={s} onClick={() => setSize(s)} className={`border px-3 py-1 text-xs uppercase ${size === s ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300'}`}>
+              <Button key={s} onClick={() => setSize(s)} variant={size === s ? 'primary' : 'outline'} size="sm">
                 {s}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -34,27 +35,29 @@ export function ProductDetailClient({ product }: { product: Product }) {
           <p className="mb-2 text-xs uppercase tracking-[0.15em]">Color</p>
           <div className="flex gap-2">
             {product.colors.map((c) => (
-              <button key={c} onClick={() => setColor(c)} className={`border px-3 py-1 text-xs uppercase ${color === c ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300'}`}>
+              <Button key={c} onClick={() => setColor(c)} variant={color === c ? 'primary' : 'outline'} size="sm">
                 {c}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <button
+        <Button
           onClick={() => addItem({ productId: product._id, name: product.name, image: product.images[0], price: product.price, size, color, quantity: 1 })}
-          className="w-full bg-zinc-900 px-4 py-3 text-xs uppercase tracking-[0.2em] text-white"
+          variant="primary"
+          className="w-full"
         >
           Add to cart
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() => toggleWishlist(product._id)}
-          className={`w-full border px-4 py-3 text-xs uppercase tracking-[0.2em] transition ${wished ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-300 text-zinc-900 hover:border-zinc-900'}`}
+          variant={wished ? 'primary' : 'outline'}
+          className="w-full"
         >
           {wished ? 'Wishlisted' : 'Wishlist'}
-        </button>
+        </Button>
       </div>
     </>
   );
