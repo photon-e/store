@@ -3,6 +3,15 @@ import { sampleProducts } from '@/lib/sampleData';
 import { ProductCard } from '@/components/product/ProductCard';
 
 export default function HomePage() {
+  const featuredImages = [
+    '/images/product-1.jpg',
+    '/images/product-2.jpg',
+    '/images/product-3.jpg',
+    '/images/product-4.jpg',
+    '/images/product-5.jpg',
+    '/images/product-6.jpg',
+  ];
+
   return (
     <div>
       <section className="relative">
@@ -23,9 +32,9 @@ export default function HomePage() {
           <Link href="/shop" className="text-xs uppercase tracking-[0.18em] text-zinc-500">View all</Link>
         </div>
         <div className="mb-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 8 }).map((_, index) => {
+          {featuredImages.slice(0, 8).map((image, index) => {
             const product = sampleProducts[index % sampleProducts.length];
-            return <ProductCard key={`featured-${product._id}-${index}`} product={product} />;
+            return <ProductCard key={`featured-${product._id}-${image}`} product={{ ...product, images: [image] }} />;
           })}
         </div>
 
