@@ -4,7 +4,7 @@ Modern ecommerce demo built with **Next.js (App Router)**, **React**, **TypeScri
 
 ## Features
 
-- **Storefront UI**: Home, shop filters, product detail, cart, checkout flow
+- **Storefront UI**: DB-backed home catalog, shop filters, product detail, cart, checkout flow
 - **Cart & wishlist**: Client state via Zustand
 - **Auth**: Register + login, JWT stored in an HTTP-only cookie
 - **Backend APIs**: Next.js Route Handlers under `app/api/*`
@@ -82,5 +82,6 @@ npm run seed
 
 ## Notes
 
-- Some pages currently use `lib/sampleData.ts` for demo content even though DB-backed product APIs exist.
+- Home, shop, and product detail pages read products from MongoDB; `lib/sampleData.ts` is retained for the seed script.
+- The admin dashboard still uses demo metrics/products pending production admin work.
 - `middleware.ts` protects `/dashboard`, `/admin`, and `/checkout` using the JWT cookie.

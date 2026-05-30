@@ -9,8 +9,8 @@ import { Button } from '@/components/ui/Button';
 
 export function ProductDetailClient({ product }: { product: Product }) {
   const addItem = useCartStore((s) => s.addItem);
-  const [size, setSize] = useState(product.sizes[0] || 'M');
-  const [color, setColor] = useState(product.colors[0] || 'Black');
+  const [size, setSize] = useState(product.sizes[0] || 'One Size');
+  const [color, setColor] = useState(product.colors[0] || 'Default');
   const toggleWishlist = useWishlistStore((s) => s.toggle);
   const wished = useWishlistStore((s) => s.has(product._id));
 
@@ -24,7 +24,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
         <div>
           <p className="mb-2 text-xs uppercase tracking-[0.15em]">Size</p>
           <div className="flex gap-2">
-            {product.sizes.map((s) => (
+            {(product.sizes.length ? product.sizes : ['One Size']).map((s) => (
               <Button key={s} onClick={() => setSize(s)} variant={size === s ? 'primary' : 'outline'} size="sm">
                 {s}
               </Button>
@@ -34,7 +34,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
         <div>
           <p className="mb-2 text-xs uppercase tracking-[0.15em]">Color</p>
           <div className="flex gap-2">
-            {product.colors.map((c) => (
+            {(product.colors.length ? product.colors : ['Default']).map((c) => (
               <Button key={c} onClick={() => setColor(c)} variant={color === c ? 'primary' : 'outline'} size="sm">
                 {c}
               </Button>
@@ -45,7 +45,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
 
       <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Button
-          onClick={() => addItem({ productId: product._id, name: product.name, image: product.images[0], price: product.price, size, color, quantity: 1 })}
+          onClick={() => addItem({ productId: product._id, name: product.name, image: product.images[0] || '/images/product-1.jpg', price: product.price, size, color, quantity: 1 })}
           variant="primary"
           className="w-full"
         >
