@@ -4,14 +4,23 @@ import { connectDB } from '@/lib/db';
 import { UserModel } from '@/models/User';
 
 export async function POST(request: Request) {
-  await connectDB();
-  const body = await request.json();
+  try {
+    await connectDB();
+  } catch {
+    return NextResponse.json({ message: 'Service unavailable. Please try again later.' }, { status: 503 });
+  }
 
-  const existing = await UserModel.findOne({ email: body.email });
-  if (existing) return NextResponse.json({ message: 'Email already in use' }, { status: 400 });
+  try {
+    const body = await request.json();
 
-  const passwordHash = await bcrypt.hash(body.password, 10);
-  const user = await UserModel.create({ name: body.name, email: body.email, passwordHash, role: 'customer' });
+    const existing = await UserModel.findOne({ email: body.email });
+    if (existing) return NextResponse.json({ message: 'Email already in use' }, { status: 400 });
 
-  return NextResponse.json({ id: user._id, email: user.email });
+    const passwordHash = await bcrypt.hash(body.password, 10);
+    const user = await UserModel.create({ name: body.name, email: body.email, passwordHash, role: 'customer' });
+
+    return NextResponse.json({ id: user._id, email: user.email });
+  } catch {
+    return NextResponse.json({ message: 'Registration failed. Please try again.' }, { status: 500 });
+  }
 }
