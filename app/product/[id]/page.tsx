@@ -1,16 +1,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { sampleProducts } from '@/lib/sampleData';
 import { ProductDetailClient } from '@/components/product/ProductDetailClient';
+import { getProductBySlugOrId, getRelatedProducts } from '@/lib/products';
+
+export const dynamic = 'force-dynamic';
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const product = sampleProducts.find((p) => p.slug === id || p._id === id);
+  const product = await getProductBySlugOrId(id);
 
   if (!product) return notFound();
 
-  const related = sampleProducts.filter((p) => p.category === product.category && p._id !== product._id).slice(0, 3);
+  const related = await getRelatedProducts(product);
 
   return (
     <div className="container-page py-10">
@@ -27,21 +29,30 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
           <div className="mt-8 border-t pt-6">
             <h3 className="mb-4 text-xs uppercase tracking-[0.18em] text-zinc-500">Reviews</h3>
-            <div className="space-y-3 text-sm text-zinc-600">
-              <p>★★★★★ 4.8 · “Excellent quality and fit.”</p>
-              <p>★★★★☆ 4.0 · “Great fabric, size up for relaxed look.”</p>
-            </div>
+            {product.reviewsCount > 0 ? (
+              <div className="space-y-3 text-sm text-zinc-600">
+                <p>
+                  {product.rating.toFixed(1)} / 5 from {product.reviewsCount} customer reviews.
+                </p>
+              </div>
+            ) : (
+              <p className="text-sm text-zinc-600">No reviews yet. Be the first to review this product.</p>
+            )}
           </div>
 
           <div className="mt-8 border-t pt-6">
             <h3 className="mb-4 text-xs uppercase tracking-[0.18em] text-zinc-500">Related Products</h3>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {related.map((item) => (
-                <Link key={item._id} href={`/product/${item.slug}`} className="text-xs uppercase tracking-[0.12em] hover:text-zinc-500">
-                  {item.name}
-                </Link>
-              ))}
-            </div>
+            {related.length > 0 ? (
+              <div className="grid gap-4 sm:grid-cols-3">
+                {related.map((item) => (
+                  <Link key={item._id} href={`/product/${item.slug}`} className="text-xs uppercase tracking-[0.12em] hover:text-zinc-500">
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-zinc-600">No related products are available yet.</p>
+            )}
           </div>
         </div>
       </div>

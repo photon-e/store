@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
 import { ProductModel } from '@/models/Product';
+import { getAdminAuth } from '@/lib/adminAuth';
 
-export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(_: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await connectDB();
   const { id } = await params;
   const product = await ProductModel.findById(id);
@@ -10,7 +11,11 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
   return NextResponse.json(product);
 }
 
-export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  if (!getAdminAuth(request)) {
+    return NextResponse.json({ message: 'Admin access is required to update products.' }, { status: 403 });
+  }
+
   await connectDB();
   const { id } = await params;
   const body = await request.json();
@@ -18,7 +23,11 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   return NextResponse.json(product);
 }
 
-export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  if (!getAdminAuth(request)) {
+    return NextResponse.json({ message: 'Admin access is required to delete products.' }, { status: 403 });
+  }
+
   await connectDB();
   const { id } = await params;
   await ProductModel.findByIdAndDelete(id);
