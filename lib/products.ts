@@ -19,10 +19,6 @@ type ProductDocument = {
   createdAt?: Date | string;
 };
 
-function logCatalogError(action: string, error: unknown) {
-  console.error(`Unable to ${action}. Check MONGODB_URI, Atlas network access, and database user credentials.`, error);
-}
-
 function toProduct(product: ProductDocument): Product {
   const id = String(product._id);
 
@@ -44,50 +40,35 @@ function toProduct(product: ProductDocument): Product {
 }
 
 export async function getProducts(limit?: number): Promise<Product[]> {
-  try {
-    await connectDB();
+  await connectDB();
 
-    let query = ProductModel.find().sort({ createdAt: -1 }).lean<ProductDocument[]>();
-    if (limit) query = query.limit(limit);
+  let query = ProductModel.find().sort({ createdAt: -1 }).lean<ProductDocument[]>();
+  if (limit) query = query.limit(limit);
 
-    const products = await query;
-    return products.map(toProduct);
-  } catch (error) {
-    logCatalogError('load products', error);
-    return [];
-  }
+  const products = await query;
+  return products.map(toProduct);
 }
 
 export async function getProductBySlugOrId(id: string): Promise<Product | null> {
-  try {
-    await connectDB();
+  await connectDB();
 
-    const product = await ProductModel.findOne({
-      $or: [{ slug: id }, ...(isValidObjectId(id) ? [{ _id: id }] : [])],
-    }).lean<ProductDocument>();
+  const product = await ProductModel.findOne({
+    $or: [{ slug: id }, ...(isValidObjectId(id) ? [{ _id: id }] : [])],
+  }).lean<ProductDocument>();
 
-    return product ? toProduct(product) : null;
-  } catch (error) {
-    logCatalogError(`load product ${id}`, error);
-    return null;
-  }
+  return product ? toProduct(product) : null;
 }
 
 export async function getRelatedProducts(product: Product, limit = 3): Promise<Product[]> {
-  try {
-    await connectDB();
+  await connectDB();
 
-    const related = await ProductModel.find({
-      category: product.category,
-      _id: { $ne: product._id },
-    })
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .lean<ProductDocument[]>();
+  const related = await ProductModel.find({
+    category: product.category,
+    _id: { $ne: product._id },
+  })
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .lean<ProductDocument[]>();
 
-    return related.map(toProduct);
-  } catch (error) {
-    logCatalogError(`load related products for ${product._id}`, error);
-    return [];
-  }
+  return related.map(toProduct);
 }

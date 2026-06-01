@@ -99,5 +99,5 @@ The form posts to `POST /api/products`, which requires a valid admin JWT cookie.
 ## Notes
 
 - Home, shop, and product detail pages read products from MongoDB; `lib/sampleData.ts` is retained for the seed script.
-- The admin dashboard reads live products and includes protected product creation; edit/delete flows are still pending production admin work.
+- The admin dashboard still uses demo metrics/products pending production admin work.
 - `middleware.ts` protects `/dashboard`, `/admin`, and `/checkout` using the JWT cookie.
