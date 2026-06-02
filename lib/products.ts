@@ -1,5 +1,6 @@
 import { isValidObjectId } from 'mongoose';
 import { connectDB } from '@/lib/db';
+import { sampleProducts } from '@/lib/sampleData';
 import { ProductModel } from '@/models/Product';
 import { Product } from '@/types';
 
@@ -39,36 +40,66 @@ function toProduct(product: ProductDocument): Product {
   };
 }
 
+function sortByNewest(products: Product[]) {
+  return [...products].sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+}
+
+function getFallbackProducts(limit?: number) {
+  const products = sortByNewest(sampleProducts);
+  return typeof limit === 'number' ? products.slice(0, limit) : products;
+}
+
+function logProductFallback(error: unknown) {
+  console.error('Unable to load products from MongoDB. Rendering sample catalog instead.', error);
+}
+
 export async function getProducts(limit?: number): Promise<Product[]> {
-  await connectDB();
+  try {
+    await connectDB();
 
-  let query = ProductModel.find().sort({ createdAt: -1 }).lean<ProductDocument[]>();
-  if (limit) query = query.limit(limit);
+    let query = ProductModel.find().sort({ createdAt: -1 }).lean<ProductDocument[]>();
+    if (limit) query = query.limit(limit);
 
-  const products = await query;
-  return products.map(toProduct);
+    const products = await query;
+    return products.map(toProduct);
+  } catch (error) {
+    logProductFallback(error);
+    return getFallbackProducts(limit);
+  }
 }
 
 export async function getProductBySlugOrId(id: string): Promise<Product | null> {
-  await connectDB();
+  try {
+    await connectDB();
 
-  const product = await ProductModel.findOne({
-    $or: [{ slug: id }, ...(isValidObjectId(id) ? [{ _id: id }] : [])],
-  }).lean<ProductDocument>();
+    const product = await ProductModel.findOne({
+      $or: [{ slug: id }, ...(isValidObjectId(id) ? [{ _id: id }] : [])],
+    }).lean<ProductDocument>();
 
-  return product ? toProduct(product) : null;
+    return product ? toProduct(product) : null;
+  } catch (error) {
+    logProductFallback(error);
+    return sampleProducts.find((product) => product.slug === id || product._id === id) ?? null;
+  }
 }
 
 export async function getRelatedProducts(product: Product, limit = 3): Promise<Product[]> {
-  await connectDB();
+  try {
+    await connectDB();
 
-  const related = await ProductModel.find({
-    category: product.category,
-    _id: { $ne: product._id },
-  })
-    .sort({ createdAt: -1 })
-    .limit(limit)
-    .lean<ProductDocument[]>();
+    const related = await ProductModel.find({
+      category: product.category,
+      _id: { $ne: product._id },
+    })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .lean<ProductDocument[]>();
 
-  return related.map(toProduct);
+    return related.map(toProduct);
+  } catch (error) {
+    logProductFallback(error);
+    return getFallbackProducts()
+      .filter((item) => item.category === product.category && item._id !== product._id)
+      .slice(0, limit);
+  }
 }
