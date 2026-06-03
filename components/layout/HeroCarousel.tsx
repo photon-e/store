@@ -30,7 +30,7 @@ const slides: HeroSlide[] = [
     href: '/shop?category=new',
   },
   {
-    image: '/images/caro.png',
+    image: '/images/caro3.png',
     eyebrow: 'Members First',
     title: 'Essentials That Move With You',
     description: 'Premium fabrics and easy fits for training days, city nights, and everything between.',
