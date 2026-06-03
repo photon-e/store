@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { sampleProducts } from '@/lib/sampleData';
 import { ProductCard } from '@/components/product/ProductCard';
+import { HeroCarousel } from '@/components/layout/HeroCarousel';
 
 export default function HomePage() {
   const featuredImages = [
@@ -14,17 +15,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <section className="relative">
-        <img src="/images/product-2.jpg" alt="GENERAL hero hoodie" className="h-[60vh] w-full object-cover md:h-[75vh]" />
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="absolute inset-0 container-page flex items-end pb-16">
-          <div className="max-w-xl text-white">
-            <p className="mb-3 text-xs uppercase tracking-[0.24em]">Lagos Edit 2026</p>
-            <h1 className="mb-6 text-4xl font-light uppercase tracking-[0.16em] md:text-6xl">Premium Clothing for Everyday Style</h1>
-            <Link href="/shop" className="inline-block border border-white px-7 py-3 text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black">Explore Collection</Link>
-          </div>
-        </div>
-      </section>
+      <HeroCarousel />
 
       <section className="container-page py-14">
         <div className="mb-8 flex items-end justify-between">
