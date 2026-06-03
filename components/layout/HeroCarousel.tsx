@@ -14,7 +14,7 @@ type HeroSlide = {
 
 const slides: HeroSlide[] = [
   {
-    image: '/images/hero-general-hoodie.svg',
+    image: '/images/caro1.png',
     eyebrow: 'Lagos Edit 2026',
     title: 'Premium Clothing for Everyday Style',
     description: 'Signature GENERAL hoodies, refined layers, and street-ready essentials built around comfort.',
@@ -22,7 +22,7 @@ const slides: HeroSlide[] = [
     href: '/shop',
   },
   {
-    image: '/images/product-2.jpg',
+    image: '/images/caro2.png',
     eyebrow: 'New Drop',
     title: 'Statement Pieces in Monochrome',
     description: 'Minimal palettes, clean silhouettes, and elevated details for a sharp daily uniform.',
@@ -30,7 +30,7 @@ const slides: HeroSlide[] = [
     href: '/shop?category=new',
   },
   {
-    image: '/images/product-4.jpg',
+    image: '/images/caro.png',
     eyebrow: 'Members First',
     title: 'Essentials That Move With You',
     description: 'Premium fabrics and easy fits for training days, city nights, and everything between.',
