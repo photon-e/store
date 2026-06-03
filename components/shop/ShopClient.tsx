@@ -14,8 +14,7 @@ export function ShopClient({ products }: { products: Product[] }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
   const [size, setSize] = useState('all');
-  const highestPrice = useMemo(() => Math.max(100000, ...products.map((product) => product.price)), [products]);
-  const [maxPrice, setMaxPrice] = useState(highestPrice);
+  const [maxPrice, setMaxPrice] = useState(100000);
   const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
 
@@ -40,12 +39,10 @@ export function ShopClient({ products }: { products: Product[] }) {
     setQuery('');
     setCategory('all');
     setSize('all');
-    setMaxPrice(highestPrice);
+    setMaxPrice(100000);
     setSort('newest');
     setPage(1);
   };
-
-  const hasProducts = products.length > 0;
 
   return (
     <div className="space-y-8">
@@ -106,7 +103,7 @@ export function ShopClient({ products }: { products: Product[] }) {
             <input
               type="range"
               min={10000}
-              max={highestPrice}
+              max={100000}
               value={maxPrice}
               onChange={(e) => {
                 setMaxPrice(Number(e.target.value));
@@ -133,22 +130,13 @@ export function ShopClient({ products }: { products: Product[] }) {
 
       {paginated.length === 0 && (
         <div className="surface-card p-10 text-center">
-          <p className="mb-2 text-sm uppercase tracking-[0.14em]">
-            {hasProducts ? 'No products match your filters' : 'No products are published yet'}
-          </p>
-          <p className="mx-auto mb-4 max-w-md text-sm text-zinc-600">
-            {hasProducts
-              ? 'Try broadening your search or resetting your filters.'
-              : 'Products added to MongoDB will appear here automatically.'}
-          </p>
-          {hasProducts && (
-            <button
-              onClick={clearFilters}
-              className="text-xs uppercase tracking-[0.15em] text-zinc-600 underline underline-offset-4 hover:text-zinc-900"
-            >
-              Reset and browse all products
-            </button>
-          )}
+          <p className="mb-2 text-sm uppercase tracking-[0.14em]">No products match your filters</p>
+          <button
+            onClick={clearFilters}
+            className="text-xs uppercase tracking-[0.15em] text-zinc-600 underline underline-offset-4 hover:text-zinc-900"
+          >
+            Reset and browse all products
+          </button>
         </div>
       )}
 
