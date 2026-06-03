@@ -13,9 +13,9 @@ export function ProductCard({ product }: { product: Product }) {
   const toggle = useWishlistStore((s) => s.toggle);
   const wished = useWishlistStore((s) => s.has(product._id));
 
-  const primaryImage = product.images[0] || '/images/product-1.jpg';
-  const defaultSize = product.sizes[0] || 'One Size';
-  const defaultColor = product.colors[0] || 'Default';
+  const primaryImage = product.images[0];
+  const defaultSize = product.sizes[0];
+  const defaultColor = product.colors[0];
 
   return (
     <article className="group surface-card overflow-hidden">

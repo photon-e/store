@@ -1,11 +1,16 @@
 import Link from 'next/link';
-import { getProducts } from '@/lib/products';
+import { sampleProducts } from '@/lib/sampleData';
 import { ProductCard } from '@/components/product/ProductCard';
 
-export const dynamic = 'force-dynamic';
-
-export default async function HomePage() {
-  const products = await getProducts(8);
+export default function HomePage() {
+  const featuredImages = [
+    '/images/product-1.jpg',
+    '/images/product-2.jpg',
+    '/images/product-3.jpg',
+    '/images/product-4.jpg',
+    '/images/product-5.jpg',
+    '/images/product-6.jpg',
+  ];
 
   return (
     <div>
@@ -27,24 +32,17 @@ export default async function HomePage() {
           <Link href="/shop" className="text-xs uppercase tracking-[0.18em] text-zinc-500">View all</Link>
         </div>
         <div className="mb-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {products.slice(0, 4).map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
+          {featuredImages.slice(0, 8).map((image, index) => {
+            const product = sampleProducts[index % sampleProducts.length];
+            return <ProductCard key={`featured-${product._id}-${image}`} product={{ ...product, images: [image] }} />;
+          })}
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {products.slice(4, 8).map((product) => (
+          {sampleProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
-        {products.length === 0 && (
-          <div className="surface-card p-10 text-center">
-            <p className="mb-3 text-sm uppercase tracking-[0.14em] text-zinc-600">No products are published yet.</p>
-            <Link href="/shop" className="text-xs uppercase tracking-[0.15em] text-zinc-600 underline underline-offset-4 hover:text-zinc-900">
-              Check the live catalog
-            </Link>
-          </div>
-        )}
       </section>
 
       <section className="border-y border-zinc-200 bg-zinc-50">
