@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 type HeroSlide = {
   image: string;
+  alt: string;
   eyebrow: string;
   title: string;
   description: string;
@@ -15,6 +16,7 @@ type HeroSlide = {
 const slides: HeroSlide[] = [
   {
     image: '/images/caro1.png',
+    alt: 'GENERAL clothing carousel campaign image 1',
     eyebrow: 'Lagos Edit 2026',
     title: 'Premium Clothing for Everyday Style',
     description: 'Signature GENERAL hoodies, refined layers, and street-ready essentials built around comfort.',
@@ -23,6 +25,7 @@ const slides: HeroSlide[] = [
   },
   {
     image: '/images/caro2.png',
+    alt: 'GENERAL clothing carousel campaign image 2',
     eyebrow: 'New Drop',
     title: 'Statement Pieces in Monochrome',
     description: 'Minimal palettes, clean silhouettes, and elevated details for a sharp daily uniform.',
@@ -31,6 +34,7 @@ const slides: HeroSlide[] = [
   },
   {
     image: '/images/caro3.png',
+    alt: 'GENERAL clothing carousel campaign image 3',
     eyebrow: 'Members First',
     title: 'Essentials That Move With You',
     description: 'Premium fabrics and easy fits for training days, city nights, and everything between.',
@@ -63,7 +67,7 @@ export function HeroCarousel() {
             className={`absolute inset-0 transition-opacity duration-700 ease-out ${index === activeSlide ? 'opacity-100' : 'opacity-0'}`}
             aria-hidden={index !== activeSlide}
           >
-            <img src={slide.image} alt="" className="h-full w-full object-cover" />
+            <img src={slide.image} alt={slide.alt} className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/45 to-black/15" />
           </div>
         ))}
