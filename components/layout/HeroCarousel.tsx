@@ -17,7 +17,7 @@ const slides: HeroSlide[] = [
   {
     image: '/images/caro1.png',
     alt: 'GENERAL clothing carousel campaign image 1',
-    eyebrow: 'Lagos Edit 2026',
+    eyebrow: 'The best quality',
     title: 'Premium Clothing for Everyday Style',
     description: 'Signature GENERAL hoodies, refined layers, and street-ready essentials built around comfort.',
     cta: 'Explore Collection',
