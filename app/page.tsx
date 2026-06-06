@@ -11,6 +11,11 @@ export default function HomePage() {
     '/images/product-4.jpg',
     '/images/product-5.jpg',
     '/images/product-6.jpg',
+    '/images/IMG_9520.JPG',
+    '/images/IMG_9521.JPG',
+    '/images/IMG_9522.JPG',
+    '/images/IMG_9523.JPG',
+    '/images/IMG_9524.JPG',
   ];
 
   return (
@@ -23,7 +28,7 @@ export default function HomePage() {
           <Link href="/shop" className="text-xs uppercase tracking-[0.18em] text-zinc-500">View all</Link>
         </div>
         <div className="mb-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {featuredImages.slice(0, 8).map((image, index) => {
+          {featuredImages.map((image, index) => {
             const product = sampleProducts[index % sampleProducts.length];
             return <ProductCard key={`featured-${product._id}-${image}`} product={{ ...product, images: [image] }} />;
           })}
