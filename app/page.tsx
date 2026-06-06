@@ -33,12 +33,6 @@ export default function HomePage() {
             return <ProductCard key={`featured-${product._id}-${image}`} product={{ ...product, images: [image] }} />;
           })}
         </div>
-
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {sampleProducts.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
       </section>
 
       <section className="border-y border-zinc-200 bg-zinc-50">
