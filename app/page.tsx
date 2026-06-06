@@ -27,7 +27,7 @@ export default function HomePage() {
           <h2 className="text-2xl uppercase tracking-[0.2em]">Featured</h2>
           <Link href="/shop" className="text-xs uppercase tracking-[0.18em] text-zinc-500">View all</Link>
         </div>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {featuredImages.map((image, index) => {
             const product = sampleProducts[index % sampleProducts.length];
             return <ProductCard key={`featured-${product._id}-${image}`} product={{ ...product, images: [image] }} />;
