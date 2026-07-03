@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
+import { connectDB, isMongoDBConfigured } from '@/lib/db';
 import { stripe } from '@/lib/stripe';
 import { OrderModel } from '@/models/Order';
 
@@ -60,17 +60,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Stripe requires a minimum charge of $0.50 USD.' }, { status: 400 });
     }
 
-    await connectDB();
+    let orderId: string | undefined;
 
-    const order = await OrderModel.create({
-      userId: body.userId || '000000000000000000000001',
-      items: body.items,
-      shippingAddress: body.shippingAddress,
-      subtotal: body.subtotal,
-      tax: body.tax,
-      total: body.total,
-      status: 'pending_payment',
-    });
+    if (isMongoDBConfigured()) {
+      await connectDB();
+
+      const order = await OrderModel.create({
+        userId: body.userId || '000000000000000000000001',
+        items: body.items,
+        shippingAddress: body.shippingAddress,
+        subtotal: body.subtotal,
+        tax: body.tax,
+        total: body.total,
+        status: 'pending_payment',
+      });
+
+      orderId = String(order._id);
+    }
 
     const origin = getOrigin(request);
     const session = await stripe.checkout.sessions.create({
@@ -102,21 +108,18 @@ export async function POST(request: Request) {
           : []),
       ],
       metadata: {
-        orderId: String(order._id),
+        ...(orderId ? { orderId } : {}),
         integration: 'sandbox_checkout_session',
       },
       payment_intent_data: {
         metadata: {
-          orderId: String(order._id),
+          ...(orderId ? { orderId } : {}),
           integration: 'sandbox_checkout_session',
         },
       },
       success_url: `${origin}/api/checkout/complete?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout?canceled=1`,
     });
-
-    order.stripeCheckoutSessionId = session.id;
-    await order.save();
 
     return NextResponse.json({ url: session.url });
   } catch (error) {

@@ -39,6 +39,7 @@ copy .env.example .env
 Minimum required for guest Stripe checkout:
 
 - `STRIPE_SECRET_KEY`
+- `MONGODB_URI` is optional for guest Stripe checkout. Without it, Stripe payment still works, but orders are not saved to MongoDB.
 
 Required for auth, saved orders, and account pages:
 

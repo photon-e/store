@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     const orderId = session.metadata?.orderId;
 
     if (!orderId) {
-      return NextResponse.redirect(new URL('/checkout?payment=missing-order', request.url));
+      return NextResponse.redirect(new URL(`/order-confirmation/${session.id}`, request.url));
     }
 
     await connectDB();
