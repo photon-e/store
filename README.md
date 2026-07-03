@@ -36,7 +36,11 @@ Copy `.env.example` to `.env` and fill in the values:
 copy .env.example .env
 ```
 
-Minimum required to avoid runtime errors:
+Minimum required for guest Stripe checkout:
+
+- `STRIPE_SECRET_KEY`
+
+Required for auth, saved orders, and account pages:
 
 - `MONGODB_URI`
 - `JWT_SECRET`

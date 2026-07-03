@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const protectedRoutes = ['/dashboard', '/admin', '/checkout'];
+const protectedRoutes = ['/dashboard', '/admin'];
 
 type MiddlewarePayload = {
   role?: 'customer' | 'admin';
@@ -38,5 +38,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/admin/:path*', '/checkout/:path*'],
+  matcher: ['/dashboard/:path*', '/admin/:path*'],
 };
