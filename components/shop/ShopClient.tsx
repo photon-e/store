@@ -9,12 +9,13 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 
 const PAGE_SIZE = 6;
+const MAX_PRICE_NAIRA = 300000;
 
 export function ShopClient({ products }: { products: Product[] }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
   const [size, setSize] = useState('all');
-  const [maxPrice, setMaxPrice] = useState(100000);
+  const [maxPrice, setMaxPrice] = useState(MAX_PRICE_NAIRA);
   const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
 
@@ -39,7 +40,7 @@ export function ShopClient({ products }: { products: Product[] }) {
     setQuery('');
     setCategory('all');
     setSize('all');
-    setMaxPrice(100000);
+    setMaxPrice(MAX_PRICE_NAIRA);
     setSort('newest');
     setPage(1);
   };
@@ -103,7 +104,7 @@ export function ShopClient({ products }: { products: Product[] }) {
             <input
               type="range"
               min={10000}
-              max={100000}
+              max={MAX_PRICE_NAIRA}
               value={maxPrice}
               onChange={(e) => {
                 setMaxPrice(Number(e.target.value));
