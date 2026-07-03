@@ -8,7 +8,7 @@ Modern ecommerce demo built with **Next.js (App Router)**, **React**, **TypeScri
 - **Cart & wishlist**: Client state via Zustand
 - **Auth**: Register + login, JWT stored in an HTTP-only cookie
 - **Backend APIs**: Next.js Route Handlers under `app/api/*`
-- **Payments**: Stripe payment intent creation (server-side)
+- **Payments**: Stripe hosted Checkout session creation (guest checkout supported)
 - **Email (optional)**: Order confirmation via Nodemailer
 - **Media (optional)**: Cloudinary helper for uploads
 
@@ -36,12 +36,14 @@ Copy `.env.example` to `.env` and fill in the values:
 copy .env.example .env
 ```
 
-Minimum required to avoid runtime errors:
+Minimum required for guest Stripe checkout:
+
+- `STRIPE_SECRET_KEY`
+
+Required for auth, saved orders, and account pages:
 
 - `MONGODB_URI`
 - `JWT_SECRET`
-- `STRIPE_SECRET_KEY`
-- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
 
 Optional integrations:
 

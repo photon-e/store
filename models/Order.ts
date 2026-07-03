@@ -26,6 +26,7 @@ const OrderSchema = new Schema(
     total: Number,
     status: { type: String, default: 'paid' },
     stripePaymentIntentId: String,
+    stripeCheckoutSessionId: String,
   },
   { timestamps: true },
 );
