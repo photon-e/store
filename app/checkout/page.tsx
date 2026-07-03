@@ -1,101 +1,73 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useCartStore } from '@/store/cartStore';
 import { formatPriceWithDollarEquivalent } from '@/lib/currency';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
+import { StripePaymentForm } from './StripePaymentForm';
 
 export default function CheckoutPage() {
-  const router = useRouter();
-  const { items, subtotal, tax, total, clear } = useCartStore();
-  const [loading, setLoading] = useState(false);
-
-  const submit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const shippingAddress = Object.fromEntries(formData.entries());
-
-    setLoading(true);
-
-    const intentRes = await fetch('/api/checkout/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: total() }),
-    });
-
-    if (!intentRes.ok) {
-      setLoading(false);
-      alert('Payment initialization failed. Check Stripe keys.');
-      return;
-    }
-
-    const orderRes = await fetch('/api/orders', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        userId: '000000000000000000000001',
-        items,
-        shippingAddress,
-        subtotal: subtotal(),
-        tax: tax(),
-        total: total(),
-        status: 'paid',
-      }),
-    });
-
-    const order = await orderRes.json();
-    clear();
-    router.push(`/order-confirmation/${order._id || 'demo'}`);
-  };
+  const { items, subtotal, tax, total } = useCartStore();
 
   return (
     <div className="container-page py-10">
-      <h1 className="mb-8 text-2xl uppercase tracking-[0.2em]">Checkout</h1>
-      <div className="grid gap-8 lg:grid-cols-2">
-        <form onSubmit={submit} className="surface-card space-y-4 p-5">
-          <h2 className="text-sm uppercase tracking-[0.16em]">Shipping</h2>
-          <Input required name="fullName" placeholder="Full Name" autoComplete="name" />
-          <Input required type="email" name="email" placeholder="Email" autoComplete="email" />
-          <Input required name="address" placeholder="Address" autoComplete="street-address" />
-          <div className="grid gap-3 sm:grid-cols-2">
-            <Input required name="city" placeholder="City" autoComplete="address-level2" />
-            <Input required name="postalCode" placeholder="Postal code" autoComplete="postal-code" />
-          </div>
-          <Input required name="country" placeholder="Country" autoComplete="country-name" />
-          <Button disabled={loading || items.length === 0} className="w-full" variant="primary" type="submit">
-            {loading ? 'Processing...' : 'Pay with Stripe'}
-          </Button>
-        </form>
-
-        <aside className="surface-card h-fit p-5">
-          <h2 className="mb-4 text-sm uppercase tracking-[0.16em]">Order summary</h2>
-          <div className="space-y-2 text-sm">
-            {items.map((item) => (
-              <p key={`${item.productId}-${item.size}-${item.color}`} className="flex justify-between">
-                <span>
-                  {item.name} × {item.quantity}
-                </span>
-                <span>{formatPriceWithDollarEquivalent(item.price * item.quantity)}</span>
-              </p>
-            ))}
-            <hr className="my-3" />
-            <p className="flex justify-between">
-              <span>Subtotal</span>
-              <span>{formatPriceWithDollarEquivalent(subtotal())}</span>
-            </p>
-            <p className="flex justify-between">
-              <span>Tax</span>
-              <span>{formatPriceWithDollarEquivalent(tax())}</span>
-            </p>
-            <p className="flex justify-between font-semibold">
-              <span>Total</span>
-              <span>{formatPriceWithDollarEquivalent(total())}</span>
-            </p>
-          </div>
-        </aside>
+      <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Sandbox payments</p>
+          <h1 className="mt-2 text-2xl uppercase tracking-[0.2em]">Checkout</h1>
+        </div>
+        <Link href="/cart" className="text-sm text-zinc-600 underline-offset-4 hover:text-zinc-900 hover:underline">
+          Return to cart
+        </Link>
       </div>
+
+      {items.length === 0 ? (
+        <div className="surface-card p-10 text-center">
+          <p className="text-zinc-600">Your cart is empty. Add an item before starting Stripe checkout.</p>
+          <div className="mt-5">
+            <Link href="/shop">
+              <Button>Continue shopping</Button>
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+          <StripePaymentForm />
+
+          <aside className="surface-card h-fit p-5">
+            <h2 className="mb-4 text-sm uppercase tracking-[0.16em]">Order summary</h2>
+            <div className="space-y-3 text-sm">
+              {items.map((item) => (
+                <div key={`${item.productId}-${item.size}-${item.color}`} className="flex justify-between gap-4">
+                  <div>
+                    <p className="font-medium">{item.name}</p>
+                    <p className="text-xs text-zinc-500">
+                      {item.color} / {item.size} × {item.quantity}
+                    </p>
+                  </div>
+                  <span>{formatPriceWithDollarEquivalent(item.price * item.quantity)}</span>
+                </div>
+              ))}
+              <hr className="my-3" />
+              <p className="flex justify-between">
+                <span>Subtotal</span>
+                <span>{formatPriceWithDollarEquivalent(subtotal())}</span>
+              </p>
+              <p className="flex justify-between">
+                <span>Tax</span>
+                <span>{formatPriceWithDollarEquivalent(tax())}</span>
+              </p>
+              <p className="flex justify-between text-base font-semibold">
+                <span>Total</span>
+                <span>{formatPriceWithDollarEquivalent(total())}</span>
+              </p>
+            </div>
+            <div className="mt-5 rounded-lg bg-zinc-50 p-4 text-xs leading-5 text-zinc-600">
+              Payments are confirmed by Stripe before an order is created. Sandbox mode never charges a real card.
+            </div>
+          </aside>
+        </div>
+      )}
     </div>
   );
 }
