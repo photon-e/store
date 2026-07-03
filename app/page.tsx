@@ -5,17 +5,10 @@ import { HeroCarousel } from '@/components/layout/HeroCarousel';
 
 export default function HomePage() {
   const featuredImages = [
-    '/images/product-1.jpg',
-    '/images/product-2.jpg',
-    '/images/product-3.jpg',
-    '/images/product-4.jpg',
-    '/images/product-5.jpg',
-    '/images/product-6.jpg',
-    '/images/IMG_9520.JPG',
-    '/images/IMG_9521.JPG',
-    '/images/IMG_9522.JPG',
-    '/images/IMG_9523.JPG',
-    '/images/IMG_9524.JPG',
+    '/images/PHOTO-2026-06-14-02-36-18.jpg',
+    '/images/PHOTO-2026-06-14-02-36-19.jpg',
+    '/images/PHOTO-2026-06-14-02-36-18 2.jpg',
+    '/images/PHOTO-2026-06-14-02-36-19 2.jpg',
   ];
 
   return (
