@@ -4,12 +4,7 @@ import { ProductCard } from '@/components/product/ProductCard';
 import { HeroCarousel } from '@/components/layout/HeroCarousel';
 
 export default function HomePage() {
-  const featuredImages = [
-    '/images/PHOTO-2026-06-14-02-36-18.jpg',
-    '/images/PHOTO-2026-06-14-02-36-19.jpg',
-    '/images/PHOTO-2026-06-14-02-36-18 2.jpg',
-    '/images/PHOTO-2026-06-14-02-36-19 2.jpg',
-  ];
+  const featuredProducts = sampleProducts.slice(0, 4);
 
   return (
     <div>
@@ -21,10 +16,9 @@ export default function HomePage() {
           <Link href="/shop" className="text-xs uppercase tracking-[0.18em] text-zinc-500">View all</Link>
         </div>
         <div className="mb-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {featuredImages.map((image, index) => {
-            const product = sampleProducts[index % sampleProducts.length];
-            return <ProductCard key={`featured-${product._id}-${image}`} product={{ ...product, images: [image] }} />;
-          })}
+          {featuredProducts.map((product) => (
+            <ProductCard key={`featured-${product._id}`} product={product} />
+          ))}
         </div>
       </section>
 
