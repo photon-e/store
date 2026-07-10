@@ -23,7 +23,7 @@ export const sampleProducts: Product[] = [
   },
   {
     _id: '2',
-    name: 'Logo Fleece Shorts',
+    name: 'Fleece Shorts',
     slug: 'logo-fleece-shorts',
     price: 65000,
     description: 'Soft elastic-waist fleece shorts finished with a compact GENERAL five-star logo at the hem.',
@@ -44,7 +44,7 @@ export const sampleProducts: Product[] = [
   },
   {
     _id: '3',
-    name: 'Logo Track Joggers',
+    name: 'Track Joggers',
     slug: 'logo-track-joggers',
     price: 85000,
     description: 'GENERAL track joggers with an elastic waistband, tapered leg, rib cuffs, and five-star thigh branding.',
@@ -65,7 +65,7 @@ export const sampleProducts: Product[] = [
   },
   {
     _id: '4',
-    name: 'Logo Long Sleeve Crew Top',
+    name: 'Long Sleeve Crew Top',
     slug: 'logo-long-sleeve-crew-top',
     price: 72000,
     description: 'Long-sleeve crewneck top with a clean GENERAL five-star chest print and ribbed cuffs.',
@@ -83,7 +83,7 @@ export const sampleProducts: Product[] = [
   },
   {
     _id: '5',
-    name: 'Logo V-Neck Tee',
+    name: 'V-Neck Tee',
     slug: 'logo-v-neck-tee',
     price: 58000,
     description: 'Short-sleeve V-neck tee with the GENERAL five-star chest mark in everyday jersey fabric.',
@@ -102,7 +102,7 @@ export const sampleProducts: Product[] = [
   },
   {
     _id: '6',
-    name: 'Logo Long Sleeve V-Neck Top',
+    name: 'Long Sleeve V-Neck Top',
     slug: 'logo-long-sleeve-v-neck-top',
     price: 78000,
     description: 'Long-sleeve V-neck top with cuffed sleeves, a smooth fit, and GENERAL five-star chest branding.',

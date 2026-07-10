@@ -4,7 +4,7 @@ import { ProductCard } from '@/components/product/ProductCard';
 import { HeroCarousel } from '@/components/layout/HeroCarousel';
 
 export default function HomePage() {
-  const featuredProducts = sampleProducts.slice(0, 4);
+  const featuredProducts = sampleProducts;
 
   return (
     <div>
