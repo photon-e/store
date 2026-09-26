@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useCartStore } from '@/store/cartStore';
-import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import { formatPounds } from '@/lib/currency';
 import { Button } from '@/components/ui/Button';
 import { StripePaymentForm } from './StripePaymentForm';
 
@@ -45,21 +45,21 @@ export default function CheckoutPage() {
                       {item.color} / {item.size} × {item.quantity}
                     </p>
                   </div>
-                  <span>{formatPriceWithDollarEquivalent(item.price * item.quantity)}</span>
+                  <span>{formatPounds(item.pricePence * item.quantity)}</span>
                 </div>
               ))}
               <hr className="my-3" />
               <p className="flex justify-between">
                 <span>Subtotal</span>
-                <span>{formatPriceWithDollarEquivalent(subtotal())}</span>
+                <span>{formatPounds(subtotal())}</span>
               </p>
               <p className="flex justify-between">
                 <span>Tax</span>
-                <span>{formatPriceWithDollarEquivalent(tax())}</span>
+                <span>{formatPounds(tax())}</span>
               </p>
               <p className="flex justify-between text-base font-semibold">
                 <span>Total</span>
-                <span>{formatPriceWithDollarEquivalent(total())}</span>
+                <span>{formatPounds(total())}</span>
               </p>
             </div>
             <div className="mt-5 rounded-lg bg-zinc-50 p-4 text-xs leading-5 text-zinc-600">

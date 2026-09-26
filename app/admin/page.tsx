@@ -1,9 +1,9 @@
 import { sampleProducts } from '@/lib/sampleData';
-import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import { formatPounds } from '@/lib/currency';
 import { Button } from '@/components/ui/Button';
 
 export default function AdminPage() {
-  const totalSales = 25430;
+  const totalSalesPence = 2543000;
   const totalOrders = 338;
 
   return (
@@ -12,7 +12,7 @@ export default function AdminPage() {
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="surface-card p-4">
           <p className="text-xs uppercase text-zinc-500">Total Sales</p>
-          <p className="mt-2 text-2xl">{formatPriceWithDollarEquivalent(totalSales)}</p>
+          <p className="mt-2 text-2xl">{formatPounds(totalSalesPence)}</p>
         </div>
         <div className="surface-card p-4">
           <p className="text-xs uppercase text-zinc-500">Orders</p>
@@ -46,7 +46,7 @@ export default function AdminPage() {
                 <tr key={p._id} className="border-b">
                   <td className="py-3">{p.name}</td>
                   <td>{p.category}</td>
-                  <td>{formatPriceWithDollarEquivalent(p.price)}</td>
+                  <td>{formatPounds(p.pricePence)}</td>
                   <td>{p.stock}</td>
                   <td className="space-x-2">
                     <Button size="sm">Edit</Button>

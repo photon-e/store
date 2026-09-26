@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Product } from '@/types';
 import { useCartStore } from '@/store/cartStore';
-import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import { formatPounds } from '@/lib/currency';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { Button } from '@/components/ui/Button';
 
@@ -17,7 +17,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
   return (
     <>
       <h1 className="text-3xl uppercase tracking-[0.14em]">{product.name}</h1>
-      <p className="mt-3 text-2xl">{formatPriceWithDollarEquivalent(product.price)}</p>
+      <p className="mt-3 text-2xl">{formatPounds(product.pricePence)}</p>
       <p className="mt-5 text-zinc-600">{product.description}</p>
 
       <div className="mt-6 space-y-4">
@@ -45,7 +45,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
 
       <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Button
-          onClick={() => addItem({ productId: product._id, name: product.name, image: product.images[0], price: product.price, size, color, quantity: 1 })}
+          onClick={() => addItem({ productId: product._id, name: product.name, image: product.images[0], pricePence: product.pricePence, size, color, quantity: 1 })}
           variant="primary"
           className="w-full"
         >

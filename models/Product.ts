@@ -4,7 +4,7 @@ const ProductSchema = new Schema(
   {
     name: { type: String, required: true },
     slug: { type: String, required: true, unique: true },
-    price: { type: Number, required: true },
+    pricePence: { type: Number, required: true, min: 0 },
     description: { type: String, required: true },
     category: { type: String, enum: ['men', 'women', 'kids'], required: true },
     sizes: [{ type: String }],

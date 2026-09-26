@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCartStore } from '@/store/cartStore';
-import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import { formatPounds } from '@/lib/currency';
 import { Button } from '@/components/ui/Button';
 
 export default function CartPage() {
@@ -32,7 +32,7 @@ export default function CartPage() {
                   <p className="mt-1 text-sm text-zinc-600">
                     {item.color} / {item.size}
                   </p>
-                  <p className="mt-2 text-sm">{formatPriceWithDollarEquivalent(item.price)}</p>
+                  <p className="mt-2 text-sm">{formatPounds(item.pricePence)}</p>
                   <div className="mt-3 flex items-center gap-2">
                     <Button
                       size="sm"
@@ -68,15 +68,15 @@ export default function CartPage() {
             <div className="space-y-2 text-sm">
               <p className="flex justify-between">
                 <span>Subtotal</span>
-                <span>{formatPriceWithDollarEquivalent(subtotal())}</span>
+                <span>{formatPounds(subtotal())}</span>
               </p>
               <p className="flex justify-between">
                 <span>Tax</span>
-                <span>{formatPriceWithDollarEquivalent(tax())}</span>
+                <span>{formatPounds(tax())}</span>
               </p>
               <p className="flex justify-between font-semibold">
                 <span>Total</span>
-                <span>{formatPriceWithDollarEquivalent(total())}</span>
+                <span>{formatPounds(total())}</span>
               </p>
             </div>
             <div className="mt-5">

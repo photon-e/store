@@ -7,30 +7,30 @@ type CheckoutItem = {
   quantity?: number;
   size?: string;
   color?: string;
-  price?: number;
+  pricePence?: number;
 };
 
 export async function POST(request: Request) {
   try {
-    const { amount, cart } = (await request.json()) as { amount?: number; cart?: CheckoutItem[] };
+    const { amountPence, cart } = (await request.json()) as { amountPence?: number; cart?: CheckoutItem[] };
 
     if (!process.env.STRIPE_SECRET_KEY) {
       return NextResponse.json({ error: 'STRIPE_SECRET_KEY is not configured for sandbox checkout.' }, { status: 500 });
     }
 
-    if (typeof amount !== 'number' || !Number.isFinite(amount) || amount <= 0) {
+    if (typeof amountPence !== 'number' || !Number.isFinite(amountPence) || amountPence <= 0) {
       return NextResponse.json({ error: 'A valid checkout amount is required.' }, { status: 400 });
     }
 
-    const amountInCents = Math.round(amount * 100);
+    const amountInPence = Math.round(amountPence);
 
-    if (amountInCents < 50) {
-      return NextResponse.json({ error: 'Stripe requires a minimum charge of $0.50 USD.' }, { status: 400 });
+    if (amountInPence < 30) {
+      return NextResponse.json({ error: 'Stripe requires a minimum charge of £0.30 GBP.' }, { status: 400 });
     }
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amountInCents,
-      currency: 'usd',
+      amount: amountInPence,
+      currency: 'gbp',
       automatic_payment_methods: { enabled: true },
       metadata: {
         integration: 'sandbox_checkout',

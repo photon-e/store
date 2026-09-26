@@ -9,7 +9,7 @@ type CheckoutItem = {
   quantity: number;
   size: string;
   color: string;
-  price: number;
+  pricePence: number;
 };
 
 type ShippingAddress = {
@@ -25,19 +25,14 @@ function getOrigin(request: Request) {
   return process.env.NEXT_PUBLIC_APP_URL || new URL(request.url).origin;
 }
 
-function toStripeAmount(price: number) {
-  return Math.round(price * 100);
-}
-
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as {
       userId?: string;
       items?: CheckoutItem[];
       shippingAddress?: ShippingAddress;
-      subtotal?: number;
-      tax?: number;
-      total?: number;
+      subtotalPence?: number;
+      taxPence?: number;
     };
 
     if (!process.env.STRIPE_SECRET_KEY) {
@@ -52,12 +47,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'A shipping email is required.' }, { status: 400 });
     }
 
-    const subtotalInCents = body.items.reduce((sum, item) => sum + toStripeAmount(item.price) * item.quantity, 0);
-    const taxInCents = Math.max(0, Math.round((body.tax || 0) * 100));
-    const totalInCents = subtotalInCents + taxInCents;
+    const subtotalInPence = body.items.reduce((sum, item) => sum + item.pricePence * item.quantity, 0);
+    const taxInPence = Math.max(0, Math.round(body.taxPence || 0));
+    const totalInPence = subtotalInPence + taxInPence;
 
-    if (totalInCents < 50) {
-      return NextResponse.json({ error: 'Stripe requires a minimum charge of $0.50 USD.' }, { status: 400 });
+    if (totalInPence < 30) {
+      return NextResponse.json({ error: 'Stripe requires a minimum charge of £0.30 GBP.' }, { status: 400 });
     }
 
     let orderId: string | undefined;
@@ -69,9 +64,9 @@ export async function POST(request: Request) {
         userId: body.userId || '000000000000000000000001',
         items: body.items,
         shippingAddress: body.shippingAddress,
-        subtotal: body.subtotal,
-        tax: body.tax,
-        total: body.total,
+        subtotalPence: subtotalInPence,
+        taxPence: taxInPence,
+        totalPence: totalInPence,
         status: 'pending_payment',
       });
 
@@ -86,21 +81,21 @@ export async function POST(request: Request) {
         ...body.items.map((item) => ({
           quantity: item.quantity,
           price_data: {
-            currency: 'usd',
-            unit_amount: toStripeAmount(item.price),
+            currency: 'gbp',
+            unit_amount: item.pricePence,
             product_data: {
               name: item.name,
               description: `${item.color} / ${item.size}`,
             },
           },
         })),
-        ...(taxInCents > 0
+        ...(taxInPence > 0
           ? [
               {
                 quantity: 1,
                 price_data: {
-                  currency: 'usd',
-                  unit_amount: taxInCents,
+                  currency: 'gbp',
+                  unit_amount: taxInPence,
                   product_data: { name: 'Estimated tax' },
                 },
               },

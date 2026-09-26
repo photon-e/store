@@ -11,6 +11,7 @@ Modern ecommerce demo built with **Next.js (App Router)**, **React**, **TypeScri
 - **Payments**: Stripe hosted Checkout session creation (server-side)
 - **Email (optional)**: Order confirmation via Nodemailer
 - **Media (optional)**: Cloudinary helper for uploads
+- **Pricing**: GBP only, stored as integer pence and charged to Stripe in GBP
 
 ## Tech stack
 
@@ -87,4 +88,5 @@ npm run seed
 ## Notes
 
 - Some pages currently use `lib/sampleData.ts` for demo content even though DB-backed product APIs exist.
+- Product and cart monetary values use integer GBP pence (`pricePence`, `subtotalPence`, `taxPence`, and `totalPence`) to avoid floating-point currency errors.
 - `middleware.ts` protects `/dashboard`, `/admin`, and `/checkout` using the JWT cookie.
