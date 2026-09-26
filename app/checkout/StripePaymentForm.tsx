@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from 'react';
 import { useCartStore } from '@/store/cartStore';
-import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import { formatPounds } from '@/lib/currency';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
@@ -10,7 +10,7 @@ export function StripePaymentForm() {
   const { items, subtotal, tax, total } = useCartStore();
   const [checkoutError, setCheckoutError] = useState('');
   const [loading, setLoading] = useState(false);
-  const amount = total();
+  const totalPence = total();
   const [wasCanceled, setWasCanceled] = useState(false);
 
   useEffect(() => {
@@ -32,9 +32,8 @@ export function StripePaymentForm() {
         userId: '000000000000000000000001',
         items,
         shippingAddress,
-        subtotal: subtotal(),
-        tax: tax(),
-        total: amount,
+        subtotalPence: subtotal(),
+        taxPence: tax(),
       }),
     });
 
@@ -92,7 +91,7 @@ export function StripePaymentForm() {
       {checkoutError ? <p className="rounded-md bg-red-50 p-3 text-sm text-red-700">{checkoutError}</p> : null}
 
       <Button disabled={loading || items.length === 0} className="w-full" variant="primary" type="submit">
-        {loading ? 'Redirecting to Stripe...' : `Pay ${formatPriceWithDollarEquivalent(amount)} with Stripe`}
+        {loading ? 'Redirecting to Stripe...' : `Pay ${formatPounds(totalPence)} with Stripe`}
       </Button>
     </form>
   );
