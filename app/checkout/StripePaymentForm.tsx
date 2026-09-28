@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
 export function StripePaymentForm() {
-  const { items, subtotal, tax, total } = useCartStore();
+  const { items, total } = useCartStore();
   const [checkoutError, setCheckoutError] = useState('');
   const [loading, setLoading] = useState(false);
   const totalPence = total();
@@ -29,8 +29,7 @@ export function StripePaymentForm() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        userId: '000000000000000000000001',
-        items,
+        items: items.map(({ productId, size, color, quantity }) => ({ productId, size, color, quantity })),
         shippingAddress,
         subtotalPence: subtotal(),
         taxPence: tax(),
