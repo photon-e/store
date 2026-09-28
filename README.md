@@ -11,6 +11,7 @@ Modern ecommerce demo built with **Next.js (App Router)**, **React**, **TypeScri
 - **Payments**: Stripe hosted Checkout session creation (server-side)
 - **Email (optional)**: Order confirmation via Nodemailer
 - **Media (optional)**: Cloudinary helper for uploads
+- **Pricing**: GBP only, stored as integer pence and charged to Stripe in GBP
 
 ## Tech stack
 
@@ -68,6 +69,16 @@ This repo includes a small seed script to populate MongoDB with products:
 npm run seed
 ```
 
+## Creating the first administrator
+
+After configuring MongoDB, create or promote your store administrator with:
+
+```bash
+ADMIN_EMAIL=owner@example.com ADMIN_PASSWORD='use-a-unique-password' npm run create-admin
+```
+
+Use a password with at least 12 characters. The command can be run again to reset that administrator's password and role.
+
 ## Scripts
 
 - `npm run dev`: start Next.js in dev mode
@@ -75,6 +86,7 @@ npm run seed
 - `npm run start`: run the production build
 - `npm run lint`: run Next.js lint
 - `npm run seed`: seed MongoDB with sample products
+- `npm run create-admin`: create or promote the administrator defined by `ADMIN_EMAIL` and `ADMIN_PASSWORD`
 
 ## Project structure (high level)
 
@@ -87,4 +99,7 @@ npm run seed
 ## Notes
 
 - Some pages currently use `lib/sampleData.ts` for demo content even though DB-backed product APIs exist.
+- Product and cart monetary values use integer GBP pence (`pricePence`, `subtotalPence`, `taxPence`, and `totalPence`) to avoid floating-point currency errors.
+- Stripe Checkout accepts only product IDs, variants, and quantities from the browser; the server resolves prices, validates stock, and calculates tax.
 - `middleware.ts` protects `/dashboard`, `/admin`, and `/checkout` using the JWT cookie.
+- Product creation, editing, and deletion are restricted to verified administrators; use `/admin` to manage the MongoDB catalogue.

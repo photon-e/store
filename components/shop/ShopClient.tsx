@@ -3,19 +3,19 @@
 import { useMemo, useState } from 'react';
 import { Product } from '@/types';
 import { ProductCard } from '@/components/product/ProductCard';
-import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import { formatPounds } from '@/lib/currency';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 
 const PAGE_SIZE = 6;
-const MAX_PRICE_NAIRA = 300000;
+const MAX_PRICE_PENCE = 10000;
 
 export function ShopClient({ products }: { products: Product[] }) {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('all');
   const [size, setSize] = useState('all');
-  const [maxPrice, setMaxPrice] = useState(MAX_PRICE_NAIRA);
+  const [maxPrice, setMaxPrice] = useState(MAX_PRICE_PENCE);
   const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
 
@@ -24,10 +24,10 @@ export function ShopClient({ products }: { products: Product[] }) {
       .filter((p) => p.name.toLowerCase().includes(query.toLowerCase()))
       .filter((p) => category === 'all' || p.category === category)
       .filter((p) => size === 'all' || p.sizes.includes(size))
-      .filter((p) => p.price <= maxPrice);
+      .filter((p) => p.pricePence <= maxPrice);
 
-    if (sort === 'price-low') next.sort((a, b) => a.price - b.price);
-    if (sort === 'price-high') next.sort((a, b) => b.price - a.price);
+    if (sort === 'price-low') next.sort((a, b) => a.pricePence - b.pricePence);
+    if (sort === 'price-high') next.sort((a, b) => b.pricePence - a.pricePence);
     if (sort === 'newest') next.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
 
     return next;
@@ -40,7 +40,7 @@ export function ShopClient({ products }: { products: Product[] }) {
     setQuery('');
     setCategory('all');
     setSize('all');
-    setMaxPrice(MAX_PRICE_NAIRA);
+    setMaxPrice(MAX_PRICE_PENCE);
     setSort('newest');
     setPage(1);
   };
@@ -99,12 +99,12 @@ export function ShopClient({ products }: { products: Product[] }) {
         <div className="mt-4">
           <div>
             <label className="mb-2 block text-xs uppercase tracking-[0.15em] text-zinc-500">
-              Max price: {formatPriceWithDollarEquivalent(maxPrice)}
+              Max price: {formatPounds(maxPrice)}
             </label>
             <input
               type="range"
-              min={10000}
-              max={MAX_PRICE_NAIRA}
+              min={1000}
+              max={MAX_PRICE_PENCE}
               value={maxPrice}
               onChange={(e) => {
                 setMaxPrice(Number(e.target.value));

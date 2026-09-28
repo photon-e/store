@@ -2,7 +2,7 @@ import { Schema, model, models } from 'mongoose';
 
 const OrderSchema = new Schema(
   {
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
     items: [
       {
         productId: { type: Schema.Types.ObjectId, ref: 'Product' },
@@ -10,7 +10,7 @@ const OrderSchema = new Schema(
         quantity: Number,
         size: String,
         color: String,
-        price: Number,
+        pricePence: Number,
       },
     ],
     shippingAddress: {
@@ -21,9 +21,9 @@ const OrderSchema = new Schema(
       postalCode: String,
       country: String,
     },
-    subtotal: Number,
-    tax: Number,
-    total: Number,
+    subtotalPence: Number,
+    taxPence: Number,
+    totalPence: Number,
     status: { type: String, default: 'paid' },
     stripePaymentIntentId: String,
     stripeCheckoutSessionId: String,

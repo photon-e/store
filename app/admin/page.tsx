@@ -1,64 +1,24 @@
-import { sampleProducts } from '@/lib/sampleData';
-import { formatPriceWithDollarEquivalent } from '@/lib/currency';
+import Link from 'next/link';
+import { ProductActions } from '@/components/admin/ProductActions';
 import { Button } from '@/components/ui/Button';
+import { formatPounds } from '@/lib/currency';
+import { connectDB } from '@/lib/db';
+import { requireAdminPage } from '@/lib/requireAdmin';
+import { ProductModel } from '@/models/Product';
 
-export default function AdminPage() {
-  const totalSales = 25430;
-  const totalOrders = 338;
+export const dynamic = 'force-dynamic';
+
+export default async function AdminPage() {
+  await requireAdminPage();
+  await connectDB();
+  const products = await ProductModel.find().sort({ createdAt: -1 }).lean();
 
   return (
     <div className="container-page py-10">
-      <h1 className="mb-6 text-2xl uppercase tracking-[0.2em]">Admin Dashboard</h1>
-      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="surface-card p-4">
-          <p className="text-xs uppercase text-zinc-500">Total Sales</p>
-          <p className="mt-2 text-2xl">{formatPriceWithDollarEquivalent(totalSales)}</p>
-        </div>
-        <div className="surface-card p-4">
-          <p className="text-xs uppercase text-zinc-500">Orders</p>
-          <p className="mt-2 text-2xl">{totalOrders}</p>
-        </div>
-        <div className="surface-card p-4">
-          <p className="text-xs uppercase text-zinc-500">Products</p>
-          <p className="mt-2 text-2xl">{sampleProducts.length}</p>
-        </div>
-        <div className="surface-card p-4">
-          <p className="text-xs uppercase text-zinc-500">Users</p>
-          <p className="mt-2 text-2xl">1,245</p>
-        </div>
-      </div>
-
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4"><div><p className="text-xs uppercase tracking-[0.18em] text-zinc-500">Store administration</p><h1 className="mt-2 text-2xl uppercase tracking-[0.2em]">Products</h1></div><Link href="/admin/products/new"><Button variant="primary">Add product</Button></Link></div>
       <section className="surface-card p-5">
-        <h2 className="mb-4 text-sm uppercase tracking-[0.16em]">Product Management</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="border-b text-xs uppercase tracking-[0.14em] text-zinc-500">
-                <th className="py-2">Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sampleProducts.map((p) => (
-                <tr key={p._id} className="border-b">
-                  <td className="py-3">{p.name}</td>
-                  <td>{p.category}</td>
-                  <td>{formatPriceWithDollarEquivalent(p.price)}</td>
-                  <td>{p.stock}</td>
-                  <td className="space-x-2">
-                    <Button size="sm">Edit</Button>
-                    <Button size="sm" className="border-red-400 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-500">
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr className="border-b text-xs uppercase tracking-[0.14em] text-zinc-500"><th className="py-2">Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody>{products.map((product) => (<tr key={String(product._id)} className="border-b"><td className="py-3">{product.name}</td><td className="capitalize">{product.category}</td><td>{formatPounds(product.pricePence)}</td><td>{product.stock}</td><td><ProductActions productId={String(product._id)} /></td></tr>))}</tbody></table></div>
+        {products.length === 0 ? <p className="py-10 text-center text-sm text-zinc-600">No products yet. Add your first product to begin selling.</p> : null}
       </section>
     </div>
   );
