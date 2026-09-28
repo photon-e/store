@@ -100,6 +100,5 @@ Use a password with at least 12 characters. The command can be run again to rese
 
 - Some pages currently use `lib/sampleData.ts` for demo content even though DB-backed product APIs exist.
 - Product and cart monetary values use integer GBP pence (`pricePence`, `subtotalPence`, `taxPence`, and `totalPence`) to avoid floating-point currency errors.
-- Stripe Checkout accepts only product IDs, variants, and quantities from the browser; the server resolves prices, validates stock, and calculates tax.
 - `middleware.ts` protects `/dashboard`, `/admin`, and `/checkout` using the JWT cookie.
 - Product creation, editing, and deletion are restricted to verified administrators; use `/admin` to manage the MongoDB catalogue.

@@ -31,6 +31,8 @@ export function StripePaymentForm() {
       body: JSON.stringify({
         items: items.map(({ productId, size, color, quantity }) => ({ productId, size, color, quantity })),
         shippingAddress,
+        subtotalPence: subtotal(),
+        taxPence: tax(),
       }),
     });
 
