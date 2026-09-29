@@ -1,7 +1,6 @@
 import { sampleProducts } from '@/lib/sampleData';
 import { formatPounds } from '@/lib/currency';
 import { Button } from '@/components/ui/Button';
-import { formatPounds } from '@/lib/currency';
 import { connectDB } from '@/lib/db';
 import { requireAdminPage } from '@/lib/requireAdmin';
 import { ProductModel } from '@/models/Product';
