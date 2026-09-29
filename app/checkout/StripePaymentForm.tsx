@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 
 export function StripePaymentForm() {
-  const { items, total } = useCartStore();
+  const { items, subtotal, tax, total } = useCartStore();
   const [checkoutError, setCheckoutError] = useState('');
   const [loading, setLoading] = useState(false);
   const totalPence = total();

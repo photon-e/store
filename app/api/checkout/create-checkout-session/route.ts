@@ -55,7 +55,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'A shipping email is required.' }, { status: 400 });
     }
 
-    const subtotalInPence = body.items.reduce((sum, item) => sum + item.pricePence * item.quantity, 0);
+    const items = body.items ?? [];
+    const subtotalInPence = items.reduce((sum, item) => sum + item.pricePence * item.quantity, 0);
     const taxInPence = Math.max(0, Math.round(body.taxPence || 0));
     const totalInPence = subtotalInPence + taxInPence;
 
@@ -114,9 +115,7 @@ export async function POST(request: Request) {
           ...(orderId ? { orderId } : {}),
           integration: 'sandbox_checkout_session',
         },
-      ],
-      metadata: { ...(orderId ? { orderId } : {}), integration: 'sandbox_checkout_session' },
-      payment_intent_data: { metadata: { ...(orderId ? { orderId } : {}), integration: 'sandbox_checkout_session' } },
+      },
       success_url: `${origin}/api/checkout/complete?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout?canceled=1`,
     });
