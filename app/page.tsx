@@ -1,10 +1,12 @@
 import Link from 'next/link';
-import { sampleProducts } from '@/lib/sampleData';
 import { ProductCard } from '@/components/product/ProductCard';
 import { HeroCarousel } from '@/components/layout/HeroCarousel';
+import { getCatalogProducts } from '@/lib/getCatalogProducts';
 
-export default function HomePage() {
-  const featuredProducts = sampleProducts;
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
+  const featuredProducts = (await getCatalogProducts()).slice(0, 4);
 
   return (
     <div>

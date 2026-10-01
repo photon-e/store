@@ -61,21 +61,26 @@ export function ProductForm({ product }: ProductFormProps) {
       return;
     }
 
-    const response = await fetch(product ? `/api/products/${product.id}` : '/api/products', {
-      method: product ? 'PUT' : 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    const result = await response.json();
+    try {
+      const response = await fetch(product ? `/api/products/${product.id}` : '/api/products', {
+        method: product ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const result = await response.json().catch(() => ({}));
 
-    if (!response.ok) {
-      setError(result.error || 'Unable to save product.');
+      if (!response.ok) {
+        setError(result.error || 'Unable to save product. Check the details and try again.');
+        return;
+      }
+
+      router.push('/admin');
+      router.refresh();
+    } catch {
+      setError('Could not reach the store. Check your connection and try again.');
+    } finally {
       setSaving(false);
-      return;
     }
-
-    router.push('/admin');
-    router.refresh();
   };
 
   return (

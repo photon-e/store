@@ -1,16 +1,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { sampleProducts } from '@/lib/sampleData';
 import { ProductDetailClient } from '@/components/product/ProductDetailClient';
+import { getCatalogProducts } from '@/lib/getCatalogProducts';
+
+export const dynamic = 'force-dynamic';
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const product = sampleProducts.find((p) => p.slug === id || p._id === id);
+  const products = await getCatalogProducts();
+  const product = products.find((p) => p.slug === id || p._id === id);
 
   if (!product) return notFound();
 
-  const related = sampleProducts.filter((p) => p.category === product.category && p._id !== product._id).slice(0, 3);
+  const related = products.filter((p) => p.category === product.category && p._id !== product._id).slice(0, 3);
 
   return (
     <div className="container-page py-10">
